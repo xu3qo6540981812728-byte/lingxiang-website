@@ -32,6 +32,7 @@
         /* Sidebar styling */
         .sidebar {
             background: linear-gradient(180deg, #1e3a8a 0%, #0c1e42 100%);
+            transition: transform 0.3s ease-in-out;
         }
         .nav-link {
             position: relative;
@@ -88,26 +89,27 @@
             opacity: 1;
             transform: translateY(0);
         }
+        
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-100">
 
-    <!-- Password Protection Modal -->
-    <div id="password-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75 backdrop-blur-sm">
-        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm text-center transform transition-all" style="animation: zoomIn 0.3s ease-out;">
-            <h2 class="text-2xl font-bold text-slate-800 mb-4">請輸入通關密碼</h2>
-            <p class="text-slate-500 mb-6">此為內部訓練課程，請輸入密碼以繼續。</p>
-            <input type="password" id="password-input" class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg text-center text-lg tracking-widest focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="••••••">
-            <p id="error-message" class="text-red-500 h-6 mt-2 text-sm"></p>
-            <button id="submit-password" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 mt-4">
-                進入課程
-            </button>
-        </div>
-    </div>
+    <div class="relative min-h-screen md:flex">
+        <!-- Mobile menu overlay -->
+        <div id="mobile-overlay" class="fixed inset-0 bg-black opacity-50 z-30 md:hidden" style="display: none;"></div>
 
-    <div id="main-content" class="flex h-screen">
         <!-- Sidebar Navigation -->
-        <aside class="w-72 fixed top-0 left-0 h-full bg-blue-900 text-white flex flex-col shadow-2xl sidebar">
+        <aside id="sidebar" class="w-72 fixed top-0 left-0 h-full bg-blue-900 text-white flex flex-col shadow-2xl sidebar z-40 transform -translate-x-full md:translate-x-0">
             <div class="p-6 border-b border-blue-800 flex items-center justify-center space-x-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
@@ -129,8 +131,17 @@
             </nav>
         </aside>
 
+        <!-- Mobile Header -->
+        <header class="fixed top-0 left-0 right-0 bg-white shadow-md p-4 flex justify-between items-center z-20 md:hidden">
+            <button id="menu-button" class="text-slate-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+            <h1 class="text-lg font-bold text-slate-800">房仲菁英班</h1>
+            <div class="w-6"></div> <!-- Placeholder for balance -->
+        </header>
+
         <!-- Main Content -->
-        <main class="flex-1 ml-72 p-6 md:p-10 overflow-y-auto">
+        <main class="flex-1 md:ml-72 p-6 md:p-10 overflow-y-auto pt-20 md:pt-10">
             
             <!-- Chapter 1: 台灣房市歷史 -->
             <div id="chapter1" class="content-section active space-y-8">
@@ -784,7 +795,7 @@
                 </div>
                 
                 <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
-                    <h3 class="text-2xl font-semibold text-slate-700 mb-4">帶看前：萬全的準備是成功的一半</h3>
+                    <h3 class="text-2xl font-semibold text-slate-700 mb-4">帶看前：萬全的準備是成功の一半</h3>
                     <div class="grid md:grid-cols-2 gap-8">
                         <div>
                             <h4 class="font-bold text-lg text-indigo-600 mb-3">物件基本功</h4>
@@ -1078,71 +1089,35 @@
             
             // Re-observe animations for the new section
             observeAnimations(newSection);
+            
+            // Hide mobile menu after selection
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            if(!sidebar.classList.contains('-translate-x-full')) {
+                 sidebar.classList.add('-translate-x-full');
+                 overlay.style.display = 'none';
+            }
         }
 
-        // Password Protection and Initial Setup
+        // Initial Setup
         document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('password-modal');
             const mainContent = document.getElementById('main-content');
-            const passwordInput = document.getElementById('password-input');
-            const submitButton = document.getElementById('submit-password');
-            const errorMessage = document.getElementById('error-message');
+            const menuButton = document.getElementById('menu-button');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            
+            // Show content immediately
+            mainContent.style.display = 'block';
+            observeAnimations(document.querySelector('.content-section.active'));
 
-            mainContent.style.display = 'none';
-
-            // Function to unlock the content
-            const unlockContent = () => {
-                modal.style.transition = 'opacity 0.3s ease-out';
-                modal.style.opacity = '0';
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                    mainContent.style.display = 'flex';
-                    // Start observing animations in the initially active section
-                    observeAnimations(document.querySelector('.content-section.active'));
-                }, 300);
+            // Mobile menu toggle logic
+            const toggleMenu = () => {
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.style.display = sidebar.classList.contains('-translate-x-full') ? 'none' : 'block';
             };
 
-            // Check if user is already verified
-            if (localStorage.getItem('isVerified') === 'true') {
-                unlockContent();
-                return; // Stop further execution
-            } else {
-                modal.style.display = 'flex';
-            }
-
-
-            function checkPassword() {
-                if (passwordInput.value === 'pagelee') {
-                    // Correct password: save verification and unlock
-                    localStorage.setItem('isVerified', 'true');
-                    unlockContent();
-                } else {
-                    // Incorrect password
-                    errorMessage.textContent = '密碼錯誤，請重試。';
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                    // Add a little shake for feedback
-                    const modalBox = modal.querySelector('div');
-                    modalBox.animate([
-                        { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' },
-                        { transform: 'translateX(10px)' }, { transform: 'translateX(-10px)' },
-                        { transform: 'translateX(10px)' }, { transform: 'translateX(0)' }
-                    ], {
-                        duration: 400,
-                        easing: 'ease-in-out'
-                    });
-                }
-            }
-
-            submitButton.addEventListener('click', checkPassword);
-            passwordInput.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') {
-                    event.preventDefault();
-                    checkPassword();
-                }
-            });
-            
-            passwordInput.focus();
+            menuButton.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
         });
     </script>
 </body>
