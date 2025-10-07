@@ -1728,11 +1728,12 @@
            
 
             // --- End of Progress Tracker Logic ---
-// ===== ▼▼▼ 全新、完整的搜尋功能邏輯 開始 ▼▼▼ =====
 
-          
+            // ===== ▼▼▼ 請將這段全新的程式碼，完整貼在下方 ▼▼▼ =====
 
-            // 2. 建立搜尋索引的函式
+            // ===== 側邊欄搜尋功能邏輯 (最終修正版) =====
+            
+            // 1. 建立搜尋索引的函式 (確認在內容載入後才呼叫)
             function createSearchIndex() {
                 searchableData = [];
                 const contentElements = mainContentArea.querySelectorAll('h2, h3, h4, p, li, td');
@@ -1747,7 +1748,7 @@
                 });
             }
 
-            // 3. 顯示搜尋結果的函式
+            // 2. 顯示搜尋結果的函式
             function displayResults(matches, query) {
                 resultsList.innerHTML = '';
                 if (matches.length === 0) {
@@ -1770,34 +1771,19 @@
                 });
             }
 
-            // 4. 共用的搜尋處理函式
-            function handleGlobalSearch(event) {
-                const query = event.target.value.trim().toLowerCase();
-                searchInput.value = event.target.value;
-                tocSearchInput.value = event.target.value;
-
+            // 3. 處理搜尋框輸入事件
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
                 if (query.length < 2) {
                     resultsContainer.classList.remove('visible');
-                    if (document.getElementById('table-of-contents').style.display !== 'none') {
-                        renderTOCCards(chapters);
-                    }
                     return;
                 }
-
                 const matches = searchableData.filter(item => item.text.toLowerCase().includes(query));
-                displayResults(matches, event.target.value.trim());
+                displayResults(matches, e.target.value.trim());
                 resultsContainer.classList.add('visible');
+            });
 
-                 // 在目錄頁搜尋時，不清空卡片，讓使用者能同時看到結果與目錄
-                 if (document.getElementById('table-of-contents').style.display !== 'none') {
-                    renderTOCCards(chapters);
-                }
-            }
-
-            // 5. 綁定事件
-            searchInput.addEventListener('input', handleGlobalSearch);
-            tocSearchInput.addEventListener('input', handleGlobalSearch);
-
+            // 4. 處理點擊搜尋結果的事件
             resultsContainer.addEventListener('click', (e) => {
                 const item = e.target.closest('.search-result-item');
                 if (!item) return;
@@ -1821,20 +1807,18 @@
                 }
                 resultsContainer.classList.remove('visible');
                 searchInput.value = '';
-                tocSearchInput.value = '';
             });
 
+            // 5. 點擊頁面其他地方，關閉搜尋結果
             document.addEventListener('click', (e) => {
-                const isClickInsideSearch = searchInput.contains(e.target) || tocSearchInput.contains(e.target) || resultsContainer.contains(e.target);
+                const isClickInsideSearch = searchInput.contains(e.target) || resultsContainer.contains(e.target);
                 if (!isClickInsideSearch) {
                     resultsContainer.classList.remove('visible');
                 }
             });
 
-            // 6. 頁面載入後立即建立索引
-          
+            // ===== 側邊欄搜尋功能邏輯結束 =====
 
-            // ===== ▲▲▲ 全新、完整的搜尋功能邏輯 結束 ▲▲▲ =====
 
             // Password Protection
             // ... (您原有的程式碼)
@@ -1903,6 +1887,7 @@
     </script>
 </body>
 </html>
+
 
 
 
