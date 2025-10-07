@@ -166,6 +166,33 @@
     
     <!-- Chapter Content Template -->
     <template id="chapter-content-template">
+        <div id="chapter0" class="content-section space-y-8">
+    <header class="animate-on-scroll">
+        <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">新人課程進度表</h2>
+        <p class="text-slate-500">追蹤並記錄你的學習與實戰進度</p>
+    </header>
+    <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white text-sm">
+                <thead class="bg-slate-100">
+                    <tr>
+                        <th class="py-3 px-4 text-left font-semibold text-slate-600">項目</th>
+                        <th class="py-3 px-4 text-center font-semibold text-slate-600 w-24">完成狀態</th>
+                        <th class="py-3 px-4 text-left font-semibold text-slate-600">次數紀錄 (正字號)</th>
+                    </tr>
+                </thead>
+                <tbody id="progress-table">
+                    <!-- Rows will be injected by JS -->
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-6 text-right">
+            <button id="reset-progress" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300">
+                重設進度
+            </button>
+        </div>
+    </div>
+</div>
         <div id="chapter1" class="content-section space-y-8">
             <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">台灣房市歷史</h2>
@@ -1334,6 +1361,7 @@
     <script>
         // --- DATA ---
         const chapters = [
+            { id: 'chapter0', title: '新人課程進度表', description: '追蹤你的學習進度' },
             { id: 'chapter1', title: '台灣房市歷史', description: '回顧過去，洞見未來' },
             { id: 'chapter2', title: '認識謄本', description: '產權的照妖鏡，保障交易安全' },
             { id: 'chapter3', title: '代書流程', description: '從簽約到交屋的完整路徑圖' },
@@ -1398,6 +1426,86 @@
 
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Progress Tracker Logic ---
+    const progressItems = [
+        { name: '熟悉謄本' },
+        { name: '了解代書流程' },
+        { name: '了解房地產、所得稅' },
+        { name: '了解奢侈稅、房地合一稅' },
+        { name: '看屋練習(3間)' },
+        { name: '背誦銷售說帖' },
+        { name: '背誦開發話術' },
+        { name: '夢幻25(50戶)', count: true },
+        { name: '物件募集(50通)', count: true },
+        { name: '電聯(50通)', count: true },
+        { name: '帶看(5組)', count: true },
+        { name: '下斡旋(1組)', count: true }
+    ];
+
+    const progressTableBody = document.getElementById('progress-table');
+    const resetProgressButton = document.getElementById('reset-progress');
+
+    let progressData = JSON.parse(localStorage.getItem('progressData')) || {};
+
+    function renderProgressTable() {
+        progressTableBody.innerHTML = '';
+        progressItems.forEach((item, index) => {
+            const isChecked = progressData[index]?.checked || false;
+            const count = progressData[index]?.count || 0;
+
+            const row = document.createElement('tr');
+            row.className = 'border-b';
+
+            let countInputHTML = '';
+            if (item.count) {
+                countInputHTML = `
+                    <input type="number" min="0" value="${count}" data-index="${index}" class="count-input w-20 text-center border rounded py-1 px-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                `;
+            }
+
+            row.innerHTML = `
+                <td class="py-4 px-4 text-slate-700">${item.name}</td>
+                <td class="py-4 px-4 text-center">
+                    <input type="checkbox" data-index="${index}" class="h-6 w-6 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500 cursor-pointer" ${isChecked ? 'checked' : ''}>
+                </td>
+                <td class="py-4 px-4">
+                    ${countInputHTML}
+                </td>
+            `;
+            progressTableBody.appendChild(row);
+        });
+    }
+
+    function saveProgress() {
+        localStorage.setItem('progressData', JSON.stringify(progressData));
+    }
+
+    progressTableBody.addEventListener('change', (e) => {
+        const index = e.target.dataset.index;
+        if (!index) return;
+
+        if (e.target.type === 'checkbox') {
+            if (!progressData[index]) progressData[index] = {};
+            progressData[index].checked = e.target.checked;
+        }
+        if (e.target.type === 'number') {
+            if (!progressData[index]) progressData[index] = {};
+            progressData[index].count = parseInt(e.target.value, 10);
+        }
+        saveProgress();
+    });
+
+    resetProgressButton.addEventListener('click', () => {
+        if (confirm('您確定要重設所有進度嗎？此操作無法復原。')) {
+            progressData = {};
+            saveProgress();
+            renderProgressTable();
+        }
+    });
+
+    renderProgressTable();
+    // --- End of Progress Tracker Logic ---
+
             // Populate TOC and Chapter Content
             chapters.forEach((chapter, index) => {
                 const tocCard = document.createElement('a');
@@ -1492,6 +1600,7 @@
     </script>
 </body>
 </html>
+
 
 
 
