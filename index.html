@@ -91,6 +91,52 @@
                 transform: scale(1);
             }
         }
+        #search-results-container {
+    display: none; /* 預設情況下，這個視窗是隱藏的 */
+}
+#search-results-container.visible {
+    display: flex; /* 當 JavaScript 幫它加上 'visible' 這個 class 後，它就會以 flex 佈局顯示出來 */
+    animation: fadeIn 0.3s ease-out; /* 套用您已經寫好的 fadeIn 動畫效果 */
+}
+        .search-result-item {
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer; /* 當滑鼠移上去時，顯示為可點擊的手指圖案 */
+    transition: background-color 0.2s ease; /* 讓背景色變化有平滑的過渡效果 */
+}
+.search-result-item:hover {
+    background-color: #f1f5f9; /* 滑鼠懸停時，背景變為淺灰色，提供視覺回饋 */
+}
+        .search-result-item .chapter-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4f46e5; /* 靛藍色，和您的主題色一致 */
+    margin-bottom: 4px;
+}
+.search-result-item .match-text {
+    color: #475569; /* 深灰色，用於顯示內文 */
+    font-size: 0.95rem;
+}
+        .search-result-item mark {
+    background-color: #fef08a; /* 亮黃色背景 */
+    color: #713f12; /* 深黃褐色文字 */
+    padding: 2px 0;
+    border-radius: 3px;
+    font-weight: 600;
+}
+        .content-highlight {
+    animation: highlight-fade 2s ease-in-out; /* 套用下方定義的動畫，持續2秒 */
+    box-shadow: 0 0 0 3px rgba(253, 224, 71, 0.7); /* 一個黃色的外框陰影，像光暈 */
+    border-radius: 8px; /* 讓光暈也是圓角的 */
+}
+@keyframes highlight-fade {
+    from {
+        box-shadow: 0 0 0 3px rgba(253, 224, 71, 0.7); /* 動畫開始時的狀態 */
+    }
+    to {
+        box-shadow: 0 0 0 0px rgba(253, 224, 71, 0); /* 動畫結束時，光暈完全消失 */
+    }
+}
     </style>
 </head>
 <body class="bg-slate-100">
@@ -137,6 +183,15 @@
                     </svg>
                     <h1 class="text-xl font-bold text-center tracking-wider">房仲菁英班</h1>
                 </div>
+                
+                <div class="p-4 border-b border-blue-800">
+        <div class="relative">
+            <input type="search" id="search-input" class="w-full bg-blue-800 text-white placeholder-blue-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="搜尋課程內容...">
+            <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+        </div>
+    </div>
                 <nav id="sidebar-nav" class="flex-1 overflow-y-auto p-4 space-y-2">
                     <!-- Nav links will be injected here by JS -->
                 </nav>
@@ -1643,7 +1698,135 @@
 
             renderProgressTable();
             // --- End of Progress Tracker Logic ---
+// ===== ▼▼▼ 新增的搜尋功能邏輯 開始 ▼▼▼ =====
+            const searchInput = document.getElementById('search-input');
+            const resultsContainer = document.getElementById('search-results-container');
+            const resultsHeader = document.getElementById('search-results-header');
+            const resultsList = document.getElementById('search-results-list');
+            let searchableData = [];
+            let currentHighlight = null;
 
+            // 1. 建立搜尋索引
+            // 頁面載入後，先將所有章節的文字內容整理成一個陣列，方便後續快速搜尋。
+            function createSearchIndex() {
+                searchableData = [];
+                const contentElements = mainContentArea.querySelectorAll('h2, h3, h4, p, li, td');
+                contentElements.forEach(el => {
+                    const text = el.textContent.trim();
+                    if (text) {
+                        const chapterSection = el.closest('.content-section');
+                        if (chapterSection) {
+                            searchableData.push({
+                                text: text,
+                                chapterId: chapterSection.id,
+                                element: el
+                            });
+                        }
+                    }
+                });
+            }
+
+            // 2. 顯示搜尋結果
+            // 這個函式會根據搜尋到的結果，動態生成 HTML 列表。
+            function displayResults(matches, query) {
+                resultsList.innerHTML = '';
+                if (matches.length === 0) {
+                    resultsHeader.textContent = `找不到關於「${query}」的結果`;
+                    return;
+                }
+                
+                resultsHeader.textContent = `找到 ${matches.length} 筆關於「${query}」的結果`;
+
+                matches.forEach(match => {
+                    const li = document.createElement('li');
+                    li.className = 'search-result-item';
+                    
+                    // 讓點擊結果時，可以知道要跳到哪個章節和元素
+                    li.dataset.chapterId = match.chapterId;
+                    li.dataset.text = match.text; 
+
+                    const chapterTitle = chapters.find(c => c.id === match.chapterId)?.title || '未知章節';
+                    
+                    // 將關鍵字用 <mark> 標籤包起來，實現高亮效果
+                    const highlightedText = match.text.replace(
+                        new RegExp(query, 'gi'),
+                        (match) => `<mark>${match}</mark>`
+                    );
+
+                    li.innerHTML = `
+                        <div class="chapter-title">${chapterTitle}</div>
+                        <div class="match-text">${highlightedText}</div>
+                    `;
+                    resultsList.appendChild(li);
+                });
+            }
+
+            // 3. 處理搜尋框的輸入事件
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+
+                if (query.length < 2) { // 至少輸入2個字才開始搜尋
+                    resultsContainer.classList.remove('visible');
+                    return;
+                }
+
+                // 從索引中篩選出符合的內容
+                const matches = searchableData.filter(item => item.text.toLowerCase().includes(query));
+                
+                displayResults(matches, e.target.value.trim());
+                resultsContainer.classList.add('visible');
+            });
+
+            // 4. 處理點擊搜尋結果的事件
+            resultsContainer.addEventListener('click', (e) => {
+                const item = e.target.closest('.search-result-item');
+                if (!item) return;
+
+                const { chapterId, text } = item.dataset;
+                const targetData = searchableData.find(d => d.chapterId === chapterId && d.text === text);
+
+                if (targetData) {
+                    // 移除上一個高亮效果
+                    if(currentHighlight) {
+                        currentHighlight.classList.remove('content-highlight');
+                    }
+
+                    // 顯示對應的章節
+                    showChapterView(chapterId);
+
+                    // 捲動到目標元素並加上高亮效果
+                    targetData.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetData.element.classList.add('content-highlight');
+                    currentHighlight = targetData.element;
+
+                    // 2秒後移除高亮效果
+                    setTimeout(() => {
+                        if (currentHighlight) {
+                           currentHighlight.classList.remove('content-highlight');
+                           currentHighlight = null;
+                        }
+                    }, 2000);
+                }
+
+                // 隱藏搜尋結果視窗
+                resultsContainer.classList.remove('visible');
+                searchInput.value = '';
+            });
+            
+            // 當點擊頁面其他地方時，關閉搜尋結果
+            document.addEventListener('click', (e) => {
+                if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
+                    resultsContainer.classList.remove('visible');
+                }
+            });
+
+
+            // 在頁面載入完成後，立即建立索引
+            createSearchIndex();
+            // ===== ▲▲▲ 新增的搜尋功能邏輯 結束 ▲▲▲ =====
+
+            // Password Protection
+            // ... (您原有的程式碼)
             // Password Protection
             const modal = document.getElementById('password-modal');
             const passwordInput = document.getElementById('password-input');
@@ -1709,6 +1892,7 @@
     </script>
 </body>
 </html>
+
 
 
 
