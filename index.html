@@ -79,17 +79,7 @@
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
         
-        /* Scroll-triggered animation */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            will-change: opacity, transform;
-        }
-        .animate-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        
         
         @keyframes zoomIn {
             from {
@@ -124,7 +114,7 @@
         <!-- Table of Contents View -->
         <div id="table-of-contents">
             <div class="p-6 md:p-10">
-                <header class="text-center mb-10 animate-on-scroll">
+                <header class="text-center mb-10  ">
                     <h1 class="text-4xl md:text-5xl font-bold text-slate-800">房仲菁英班</h1>
                     <p class="text-slate-500 mt-3 text-lg">線上課程大綱</p>
                 </header>
@@ -177,18 +167,18 @@
     <!-- Chapter Content Template -->
     <template id="chapter-content-template">
         <div id="chapter1" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">台灣房市歷史</h2>
                 <p class="text-slate-500">回顧過去，洞見未來</p>
             </header>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">房地產短週期 vs. 房價</h3>
                 <p class="text-slate-600 mb-6 leading-relaxed">從歷史數據來看，台灣的房市買賣熱度通常隨著全球製造業週期而波動，呈現週期性的起伏。然而，儘管交易量有高有低，代表房價的指數卻呈現長期穩定向上的趨勢。這告訴我們，短期交易量受經濟景氣影響，但長期來看，房地產仍是保值的資產。</p>
                 <img src="images/image_578a86.jpg" alt="房地產週期與房價走勢圖" class="w-full rounded-lg shadow-md border">
                 <p class="text-center text-sm text-slate-500 mt-3">圖表顯示，房市交易量有週期性波動，但房價長期向上。</p>
             </div>
 
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">歷次房市波動原因分析</h3>
                 <div class="space-y-4">
                     <div class="p-4 bg-slate-50 rounded-lg border-l-4 border-red-400">
@@ -222,7 +212,7 @@
                 </div>
             </div>
             
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">近期重要政策與市場影響</h3>
                 <div class="space-y-8">
                     <div class="p-4 bg-indigo-50 rounded-lg">
@@ -242,16 +232,16 @@
             </div>
         </div>
         <div id="chapter2" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">認識謄本</h2>
                 <p class="text-slate-500">產權的照妖鏡，保障交易安全的第一步</p>
             </header>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                  <h3 class="text-2xl font-semibold text-slate-700 mb-4">謄本的重要性</h3>
                  <p class="text-slate-600 leading-relaxed">房屋權狀僅代表申請當下的產權狀態，後續的權利變動（如貸款設定、查封）不會即時更新。因此，查閱「土地謄本」與「建物謄本」才能了解不動產最新的產權狀態，在法律糾紛中，也一律以謄本記載為準。看懂謄本，是保障客戶與自身權益的第一步。</p>
             </div>
              <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+                <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                     <h3 class="text-xl font-semibold text-slate-700 mb-4">權狀 vs 謄本</h3>
                     <ul class="list-disc list-inside space-y-3 text-slate-600">
                         <li><span class="font-bold">詳細程度：</span>謄本較全面，權狀較簡略。</li>
@@ -259,7 +249,7 @@
                         <li><span class="font-bold">法律效力：</span>謄本是主要的法律文件，權狀為輔助。</li>
                     </ul>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+                <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                     <h3 class="text-xl font-semibold text-slate-700 mb-4">謄本分類</h3>
                      <ul class="list-disc list-inside space-y-3 text-slate-600">
                         <li><span class="font-bold">第一類：</span>所有權人本人申請，顯示完整個資。</li>
@@ -268,7 +258,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-6">謄本範例與解析</h3>
                 <div class="space-y-8">
                     <div>
@@ -287,11 +277,11 @@
             </div>
         </div>
         <div id="chapter3" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">代書流程</h2>
                 <p class="text-slate-500">從簽約到交屋的完整路徑圖</p>
             </header>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">買賣過戶流程總覽</h3>
                 <img src="images/image_578e5e.png" alt="買賣過戶流程圖" class="w-full rounded-lg shadow-md mb-8 border">
                 <div class="relative">
@@ -332,7 +322,7 @@
                     </div>
                 </div>
             </div>
-             <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+             <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                  <h3 class="text-2xl font-semibold text-slate-700 mb-4">簽約與稅務前置作業</h3>
                  <div class="space-y-6">
                     <div>
@@ -392,17 +382,17 @@
             </div>
         </div>
         <div id="chapter4" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">房地產稅務</h2>
                 <p class="text-slate-500">買賣持有各階段的稅務知識</p>
             </header>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">稅務總覽</h3>
                 <img src="images/image_57912c.jpg" alt="房地產稅務分類圖" class="w-full max-w-lg mx-auto rounded-lg shadow-md border">
             </div>
 
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+                <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                     <h3 class="text-xl font-semibold text-slate-700 mb-4">買方應繳稅費</h3>
                      <ul class="list-disc list-inside space-y-3 text-slate-600">
                         <li><span class="font-bold">契稅：</span>建物核定契價 × 6%</li>
@@ -410,7 +400,7 @@
                         <li><span class="font-bold">地政登記規費：</span>(建物核定契價+土地申報地價) × 0.1% + 書狀費</li>
                     </ul>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+                <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                     <h3 class="text-xl font-semibold text-slate-700 mb-4">賣方應繳稅費</h3>
                      <ul class="list-disc list-inside space-y-3 text-slate-600">
                         <li><span class="font-bold">土地增值稅：</span>依土地公告現值漲價總數額課徵，自用住宅優惠稅率10%。</li>
@@ -419,7 +409,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">舊制財產交易所得稅詳解</h3>
                 <div class="space-y-6">
                     <div>
@@ -447,7 +437,7 @@
                     </div>
                 </div>
             </div>
-             <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+             <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">房地合一稅 2.0 詳解</h3>
                 <div class="space-y-8">
                     <div>
@@ -525,11 +515,11 @@
             </div>
         </div>
         <div id="chapter5" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">拍照與建測圖</h2>
                 <p class="text-slate-500">用專業視角呈現物件，確認產權細節</p>
             </header>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">室內拍照技巧：拍出房子的價值感</h3>
                 <div class="grid md:grid-cols-2 gap-8">
                     <div>
@@ -544,7 +534,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">建測圖確認要點</h3>
                 <div class="grid md:grid-cols-2 gap-6 items-center">
                     <img src="images/image_579241.jpg" alt="建測圖範例" class="w-full rounded-lg shadow-md border">
@@ -558,18 +548,18 @@
             </div>
         </div>
         <div id="chapter6" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                  <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">開發篇：來源與實戰</h2>
                  <p class="text-slate-500">業績之母，一切成交的起點</p>
             </header>
-             <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll text-center">
+             <div class="bg-white p-8 rounded-xl shadow-lg content-card   text-center">
                  <p class="text-2xl font-bold text-indigo-600">「開發為業績之母」</p>
                  <p class="text-slate-600 mt-2">一切成交的起點，源自於有效的開發。</p>
                  <img src="images/image_579526.png" alt="開發漏斗圖" class="w-full max-w-md mx-auto my-6">
                  <p class="text-slate-500 text-sm">開發就像一個漏斗，需要大量的募集，才能篩選出最終成交的案件。</p>
             </div>
 
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-xl font-semibold text-slate-700 mb-4">簽委託前準備</h3>
                 <ul class="list-disc list-inside space-y-3 text-slate-600">
                     <li>熟悉委託契約與公司表單</li>
@@ -580,7 +570,7 @@
                 </ul>
             </div>
 
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-xl font-semibold text-slate-700 mb-4">募集來源</h3>
                  <ul class="list-disc list-inside space-y-3 text-slate-600">
                      <li>自售電話 (591等平台)</li>
@@ -595,7 +585,7 @@
                 </ul>
             </div>
             
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">深度經營：商圈耕耘與社區活動</h3>
                 <p class="text-slate-600 mb-6 leading-relaxed">開發不僅是打電話和踩線，更深層次的耕耘來自於建立信任與連結。以下是兩種高效的深度經營策略：</p>
                 <div class="space-y-6">
@@ -625,7 +615,7 @@
                 </div>
             </div>
 
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">如何讓每一次出門都成為有效跑線</h3>
                 <p class="text-slate-600 mb-6">有效跑線的目標只有一個：<span class="font-bold text-indigo-600">取得所有權人的姓名與電話</span>。圍繞這個目標，可以運用以下方法：</p>
                 <ul class="list-disc list-inside space-y-3 text-slate-600">
@@ -636,7 +626,7 @@
                 </ul>
             </div>
             
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">電話開發實戰技巧</h3>
                 <div class="space-y-6">
                     <div class="p-6 bg-slate-50 rounded-lg">
@@ -656,7 +646,7 @@
                 </div>
             </div>
 
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">簽訂委託的關鍵流程</h3>
                 <div class="space-y-4">
                     <div class="p-6 rounded-lg bg-blue-50">
@@ -679,7 +669,7 @@
             </div>
             
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+                <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                     <h3 class="text-xl font-semibold text-slate-700 mb-4">自我行銷工具</h3>
                     <p class="text-slate-600 mb-4">提供有別於其他房仲的差異化服務，展現您的專業價值：</p>
                     <ul class="list-disc list-inside space-y-2 text-slate-600">
@@ -692,12 +682,12 @@
                     </ul>
                     <img src="images/marketing_tools.jpg" alt="自我行銷工具範例" class="w-full rounded-lg shadow-md border mt-4">
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+                <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                     <h3 class="text-xl font-semibold text-slate-700 mb-4">商圈耕耘地圖</h3>
                      <img src="images/neighborhood_map.jpg" alt="商圈耕耘地圖" class="w-full rounded-lg shadow-md border">
                 </div>
             </div>
-             <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+             <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">開發常見問題應對話術</h3>
                 <div class="space-y-6">
                      <div class="p-6 bg-slate-50 rounded-lg border-l-4 border-indigo-300">
@@ -738,11 +728,11 @@
             </div>
         </div>
         <div id="chapter7" class="content-section space-y-8">
-             <header class="animate-on-scroll">
+             <header class=" ">
                  <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">回報與議價</h2>
                  <p class="text-slate-500">贏得信任、創造價值的關鍵溝通</p>
             </header>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">庫存經營 (朔案)</h3>
                 <p class="text-slate-600 mb-6">從委託到續約，不同階段有不同的經營重點，目標是贏得信任，達成再次服務。</p>
                 <img src="images/inventory_timeline.png" alt="庫存經營時間軸" class="w-full rounded-lg shadow-md border mb-6">
@@ -753,7 +743,7 @@
                     <li><strong>續約期：</strong>贏得信任，爭取續約，達成再次服務的機會。</li>
                 </ul>
             </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">議價的藝術</h3>
                 <div class="space-y-8">
                     <div>
@@ -787,7 +777,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">常見議價問題</h3>
                 <div class="space-y-6">
                     <div class="p-6 bg-amber-50 rounded-lg">
@@ -802,11 +792,11 @@
             </div>
         </div>
         <div id="chapter8" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">銀行貸款</h2>
                 <p class="text-slate-500">協助客戶順利成交的金融知識</p>
             </header>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">銀行貸款流程</h3>
                 <ol class="list-decimal list-inside space-y-3 text-slate-600">
                     <li>寫申請書 (附上財資力證明)</li>
@@ -821,7 +811,7 @@
                     <li>貸款二次撥款 (解圈)</li>
                 </ol>
             </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">影響貸款的五大要素</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="p-4 bg-slate-50 rounded-lg">
@@ -846,7 +836,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">銀行物件估價注意事項</h3>
                 <div class="space-y-4">
                     <p><span class="font-semibold text-red-500 bg-red-100 px-2 py-1 rounded">小套房：</span>多數銀行不承作或成數偏低(7成以下)、利率較高。坪數認定標準各家銀行不同。</p>
@@ -859,7 +849,7 @@
                     <p><span class="font-semibold text-blue-500 bg-blue-100 px-2 py-1 rounded">未保存登記建物：</span>土地上有建物但無建物權狀，大部分銀行無法貸款。</p>
                 </div>
             </div>
-             <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+             <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">人的因素：財力、負債與信用</h3>
                 <div class="space-y-6">
                     <div class="p-6 bg-green-50 rounded-lg">
@@ -878,11 +868,11 @@
             </div>
         </div>
         <div id="chapter9" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">銷售篇：帶看與客戶探索</h2>
                 <p class="text-slate-500">從帶看到收斡的關鍵步驟</p>
             </header>
-             <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+             <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">看屋練習</h3>
                 <p class="text-slate-600 mb-6">在正式帶看前，對每個物件進行自我演練，是專業的體現。</p>
                 <div class="space-y-4">
@@ -893,7 +883,7 @@
                 </div>
             </div>
             
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">帶看前：萬全的準備是成功の一半</h3>
                 <div class="grid md:grid-cols-2 gap-8">
                     <div>
@@ -918,7 +908,7 @@
                 </div>
             </div>
 
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">帶看中：引導與鋪陳的技巧</h3>
                 <div class="space-y-6">
                     <div>
@@ -942,7 +932,7 @@
                 </div>
             </div>
 
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">帶看後：精準探索與判斷</h3>
                 <p class="text-slate-600 mb-6">帶看完畢後的探索，是決定能否順利收斡的關鍵時刻。</p>
                  <ul class="list-decimal list-inside space-y-3 text-slate-700">
@@ -953,14 +943,14 @@
                 </ul>
             </div>
             
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">帶看完回訪常見錯誤</h3>
                  <p class="text-slate-600 mb-4">客戶看完趕著離開，沒時間深入溝通時，後續電話回訪至關重要，但切記：</p>
                 <p class="text-center text-xl font-bold text-red-600 bg-red-100 p-6 rounded-lg">絕對不要在電話中談價格！</p>
                 <p class="text-slate-600 mt-4">若在電話中察覺客戶有興趣出價，<span class="font-bold">務必先約碰面</span>。電話談價容易讓客戶試探底價後退縮，或因價格有落差而感受不佳，導致後續調價困難，甚至失去信任。</p>
             </div>
 
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">判斷買方等級</h3>
                 <p class="text-slate-600 mb-6">透過與客戶的互動，快速判斷其等級，有助於分配時間與精力。</p>
                 <div class="overflow-x-auto">
@@ -998,11 +988,11 @@
             </div>
         </div>
         <div id="chapter10" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">引導收斡與調價</h2>
                 <p class="text-slate-500">臨門一腳的藝術</p>
             </header>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">斡旋的觀念建立</h3>
                 <div class="grid md:grid-cols-2 gap-8">
                     <div class="p-6 bg-slate-50 rounded-lg">
@@ -1025,7 +1015,7 @@
                 </div>
             </div>
 
-             <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+             <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">碰面收斡與調價技巧【拒絕三次】</h3>
                 <p class="text-slate-600 mb-6">當買方出價過低時，不要直接否定，而是透過策略引導，讓他自己願意提高價格。</p>
                  <div class="space-y-6">
@@ -1044,7 +1034,7 @@
                 </div>
             </div>
 
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">常見收斡問題</h3>
                 <div class="p-6 bg-amber-50 rounded-lg">
                     <p class="font-bold text-slate-800">Q: 「買方如果收斡旋要壓解約條款 (如：貸款不足7成無條件解約)？」</p>
@@ -1055,11 +1045,11 @@
 
         </div>
         <div id="chapter11" class="content-section space-y-8">
-            <header class="animate-on-scroll">
+            <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">總結：成為頂尖業務的思維</h2>
                 <p class="text-slate-500">整合所學，內化為專業本能</p>
             </header>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">三大談判思路</h3>
                 <img src="images/image_5795c3.jpg" alt="SWOT分析圖" class="w-full max-w-lg mx-auto my-6 border rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
@@ -1081,7 +1071,7 @@
                     </div>
                 </div>
             </div>
-             <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+             <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">兩種敘述法</h3>
                  <div class="grid md:grid-cols-2 gap-8">
                      <div class="p-6 bg-slate-50 rounded-lg">
@@ -1095,7 +1085,7 @@
                      </div>
                  </div>
              </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">關鍵行為模式</h3>
                 <p class="text-slate-600 mb-6">這是一套結構化的談判流程，能有效引導客戶達成共識。</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1117,7 +1107,7 @@
                     </div>
                 </div>
             </div>
-             <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+             <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">表達能力訓練：麥肯錫金字塔理論</h3>
                 <div class="grid md:grid-cols-2 gap-8 items-center">
                     <img src="images/image_5795e7.jpg" alt="金字塔原理圖" class="w-full rounded-lg shadow-md border">
@@ -1132,7 +1122,7 @@
                 </ul>
                  <p class="text-slate-600 mt-4">例如，當屋主不願降價時，可以先提出結論：「我認為價格是目前銷售最大的挑戰。」接著再分點闡述原因：1. 市場行情分析 2. 買方家人意見 3. 其他競爭個案比較。</p>
             </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">表達能力訓練：邏輯之重要性</h3>
                 <p class="text-slate-600 mb-6">清晰的邏輯是有效溝通的基石，確保你的表達具備以下特點：</p>
                 <ul class="list-disc list-inside space-y-3 text-slate-600">
@@ -1143,7 +1133,7 @@
                     <li><span class="font-bold">完整：</span>確保故事五大要素（角色、時空、行動、衝突、結果）齊全。</li>
                 </ul>
             </div>
-            <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+            <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">日常習慣培養</h3>
                 <p class="text-slate-600">成功不是偶然，而是習慣的累積。</p>
                  <ul class="list-disc list-inside space-y-3 text-slate-600">
@@ -1182,21 +1172,7 @@
         const backToTocMobile = document.getElementById('back-to-toc-mobile');
         const mobileHeaderTitle = document.getElementById('mobile-header-title');
 
-        // --- ANIMATION OBSERVER ---
-        const animationObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.25 });
-
-        function observeAnimations(container) {
-            container.querySelectorAll('.animate-on-scroll').forEach(el => {
-                animationObserver.observe(el);
-            });
-        }
+    
 
         // --- VIEW MANAGEMENT ---
         function showTOC() {
@@ -1224,7 +1200,7 @@
             mainContentArea.scrollTop = 0;
             mobileHeaderTitle.textContent = element.textContent.trim().substring(2);
 
-            observeAnimations(newSection);
+            
 
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('mobile-overlay');
@@ -1240,7 +1216,7 @@
             chapters.forEach((chapter, index) => {
                 const tocCard = document.createElement('a');
                 tocCard.href = `#${chapter.id}`;
-                tocCard.className = 'toc-card bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center animate-on-scroll';
+                tocCard.className = 'toc-card bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center  ';
                 tocCard.style.willChange = 'transform, box-shadow';
                 tocCard.onclick = (e) => { e.preventDefault(); showChapterView(chapter.id); };
                 tocCard.innerHTML = `
@@ -1330,4 +1306,5 @@
     </script>
 </body>
 </html>
+
 
