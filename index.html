@@ -137,6 +137,11 @@
         box-shadow: 0 0 0 0px rgba(253, 224, 71, 0); /* 動畫結束時，光暈完全消失 */
     }
 }
+        #search-results-container.toc-search-mode {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 230px; /* 調整彈窗與搜尋框的距離 */
+}
     </style>
 </head>
 <body class="bg-slate-100">
@@ -1521,12 +1526,14 @@
             document.getElementById('table-of-contents').style.display = 'block';
             document.body.scrollTop = 0; // For Safari
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            resultsContainer.classList.add('toc-search-mode');
             observeAnimations(tocContainer);
         }
 
         function showChapterView(chapterId) {
             document.getElementById('table-of-contents').style.display = 'none';
             chapterView.style.display = 'flex';
+            resultsContainer.classList.remove('toc-search-mode');
             showContent(chapterId, sidebarNav.querySelector(`[data-chapter-id="${chapterId}"]`));
         }
 
@@ -1720,24 +1727,18 @@
 
             renderProgressTable();
 
-            // ===== ▼▼▼ 新增目錄搜尋邏輯 開始 ▼▼▼ =====
-            tocSearchInput.addEventListener('input', (e) => {
-                const query = e.target.value.trim().toLowerCase();
-                
-                if (!query) {
-                    renderTOCCards(chapters); // 如果搜尋框是空的，顯示全部章節
-                    return;
-                }
-
-                // 篩選出標題或描述包含關鍵字的章節
-                const filteredChapters = chapters.filter(chapter => 
-                    chapter.title.toLowerCase().includes(query) || 
-                    chapter.description.toLowerCase().includes(query)
-                );
-                
-                renderTOCCards(filteredChapters); // 只顯示篩選後的結果
-            });
-            // ===== ▲▲▲ 新增目錄搜尋邏輯 結束 ▲▲▲ =====
+            // ===== ▼▼▼ 把【全新的整合搜尋邏輯】貼在這裡 ▼▼▼ =====
+            
+            // 1. 建立一個共用的搜尋處理函式
+            function handleGlobalSearch(event) {
+                // ... (新程式碼的內容) ...
+            }
+            
+            // 2. 讓兩個搜尋框都綁定同一個處理函式
+            searchInput.addEventListener('input', handleGlobalSearch);
+            tocSearchInput.addEventListener('input', handleGlobalSearch);
+            
+            // ===== ▲▲▲ 新程式碼貼到這裡結束 ▲▲▲ =====
 
             // --- End of Progress Tracker Logic ---
 // ===== ▼▼▼ 新增的搜尋功能邏輯 開始 ▼▼▼ =====
@@ -1804,20 +1805,7 @@
             }
 
             // 3. 處理搜尋框的輸入事件
-            searchInput.addEventListener('input', (e) => {
-                const query = e.target.value.trim().toLowerCase();
-
-                if (query.length < 2) { // 至少輸入2個字才開始搜尋
-                    resultsContainer.classList.remove('visible');
-                    return;
-                }
-
-                // 從索引中篩選出符合的內容
-                const matches = searchableData.filter(item => item.text.toLowerCase().includes(query));
-                
-                displayResults(matches, e.target.value.trim());
-                resultsContainer.classList.add('visible');
-            });
+           
 
             // 4. 處理點擊搜尋結果的事件
             resultsContainer.addEventListener('click', (e) => {
@@ -1934,6 +1922,7 @@
     </script>
 </body>
 </html>
+
 
 
 
