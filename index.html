@@ -1727,21 +1727,12 @@
 
             renderProgressTable();
 
-            // ===== ▼▼▼ 把【全新的整合搜尋邏輯】貼在這裡 ▼▼▼ =====
-            
-            // 1. 建立一個共用的搜尋處理函式
-            function handleGlobalSearch(event) {
-                // ... (新程式碼的內容) ...
-            }
-            
-            // 2. 讓兩個搜尋框都綁定同一個處理函式
-            searchInput.addEventListener('input', handleGlobalSearch);
-            tocSearchInput.addEventListener('input', handleGlobalSearch);
-            
-            // ===== ▲▲▲ 新程式碼貼到這裡結束 ▲▲▲ =====
+           
 
             // --- End of Progress Tracker Logic ---
-// ===== ▼▼▼ 新增的搜尋功能邏輯 開始 ▼▼▼ =====
+// ===== ▼▼▼ 全新、完整的搜尋功能邏輯 開始 ▼▼▼ =====
+
+            // 1. 統一宣告所有搜尋相關的 HTML 元素
             const searchInput = document.getElementById('search-input');
             const resultsContainer = document.getElementById('search-results-container');
             const resultsHeader = document.getElementById('search-results-header');
@@ -1749,8 +1740,7 @@
             let searchableData = [];
             let currentHighlight = null;
 
-            // 1. 建立搜尋索引
-            // 頁面載入後，先將所有章節的文字內容整理成一個陣列，方便後續快速搜尋。
+            // 2. 建立搜尋索引的函式
             function createSearchIndex() {
                 searchableData = [];
                 const contentElements = mainContentArea.querySelectorAll('h2, h3, h4, p, li, td');
@@ -1759,43 +1749,27 @@
                     if (text) {
                         const chapterSection = el.closest('.content-section');
                         if (chapterSection) {
-                            searchableData.push({
-                                text: text,
-                                chapterId: chapterSection.id,
-                                element: el
-                            });
+                            searchableData.push({ text: text, chapterId: chapterSection.id, element: el });
                         }
                     }
                 });
             }
 
-            // 2. 顯示搜尋結果
-            // 這個函式會根據搜尋到的結果，動態生成 HTML 列表。
+            // 3. 顯示搜尋結果的函式
             function displayResults(matches, query) {
                 resultsList.innerHTML = '';
                 if (matches.length === 0) {
                     resultsHeader.textContent = `找不到關於「${query}」的結果`;
                     return;
                 }
-                
                 resultsHeader.textContent = `找到 ${matches.length} 筆關於「${query}」的結果`;
-
                 matches.forEach(match => {
                     const li = document.createElement('li');
                     li.className = 'search-result-item';
-                    
-                    // 讓點擊結果時，可以知道要跳到哪個章節和元素
                     li.dataset.chapterId = match.chapterId;
-                    li.dataset.text = match.text; 
-
+                    li.dataset.text = match.text;
                     const chapterTitle = chapters.find(c => c.id === match.chapterId)?.title || '未知章節';
-                    
-                    // 將關鍵字用 <mark> 標籤包起來，實現高亮效果
-                    const highlightedText = match.text.replace(
-                        new RegExp(query, 'gi'),
-                        (match) => `<mark>${match}</mark>`
-                    );
-
+                    const highlightedText = match.text.replace(new RegExp(query, 'gi'), (match) => `<mark>${match}</mark>`);
                     li.innerHTML = `
                         <div class="chapter-title">${chapterTitle}</div>
                         <div class="match-text">${highlightedText}</div>
@@ -1804,32 +1778,48 @@
                 });
             }
 
-            // 3. 處理搜尋框的輸入事件
-           
+            // 4. 共用的搜尋處理函式
+            function handleGlobalSearch(event) {
+                const query = event.target.value.trim().toLowerCase();
+                searchInput.value = event.target.value;
+                tocSearchInput.value = event.target.value;
 
-            // 4. 處理點擊搜尋結果的事件
+                if (query.length < 2) {
+                    resultsContainer.classList.remove('visible');
+                    if (document.getElementById('table-of-contents').style.display !== 'none') {
+                        renderTOCCards(chapters);
+                    }
+                    return;
+                }
+
+                const matches = searchableData.filter(item => item.text.toLowerCase().includes(query));
+                displayResults(matches, event.target.value.trim());
+                resultsContainer.classList.add('visible');
+
+                 // 在目錄頁搜尋時，不清空卡片，讓使用者能同時看到結果與目錄
+                 if (document.getElementById('table-of-contents').style.display !== 'none') {
+                    renderTOCCards(chapters);
+                }
+            }
+
+            // 5. 綁定事件
+            searchInput.addEventListener('input', handleGlobalSearch);
+            tocSearchInput.addEventListener('input', handleGlobalSearch);
+
             resultsContainer.addEventListener('click', (e) => {
                 const item = e.target.closest('.search-result-item');
                 if (!item) return;
 
                 const { chapterId, text } = item.dataset;
                 const targetData = searchableData.find(d => d.chapterId === chapterId && d.text === text);
-
                 if (targetData) {
-                    // 移除上一個高亮效果
-                    if(currentHighlight) {
+                    if (currentHighlight) {
                         currentHighlight.classList.remove('content-highlight');
                     }
-
-                    // 顯示對應的章節
                     showChapterView(chapterId);
-
-                    // 捲動到目標元素並加上高亮效果
                     targetData.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     targetData.element.classList.add('content-highlight');
                     currentHighlight = targetData.element;
-
-                    // 2秒後移除高亮效果
                     setTimeout(() => {
                         if (currentHighlight) {
                            currentHighlight.classList.remove('content-highlight');
@@ -1837,23 +1827,22 @@
                         }
                     }, 2000);
                 }
-
-                // 隱藏搜尋結果視窗
                 resultsContainer.classList.remove('visible');
                 searchInput.value = '';
+                tocSearchInput.value = '';
             });
-            
-            // 當點擊頁面其他地方時，關閉搜尋結果
+
             document.addEventListener('click', (e) => {
-                if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
+                const isClickInsideSearch = searchInput.contains(e.target) || tocSearchInput.contains(e.target) || resultsContainer.contains(e.target);
+                if (!isClickInsideSearch) {
                     resultsContainer.classList.remove('visible');
                 }
             });
 
-
-            // 在頁面載入完成後，立即建立索引
+            // 6. 頁面載入後立即建立索引
             createSearchIndex();
-            // ===== ▲▲▲ 新增的搜尋功能邏輯 結束 ▲▲▲ =====
+
+            // ===== ▲▲▲ 全新、完整的搜尋功能邏輯 結束 ▲▲▲ =====
 
             // Password Protection
             // ... (您原有的程式碼)
@@ -1922,6 +1911,7 @@
     </script>
 </body>
 </html>
+
 
 
 
