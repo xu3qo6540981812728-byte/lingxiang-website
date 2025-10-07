@@ -1512,7 +1512,7 @@
         const backToTocDesktop = document.getElementById('back-to-toc-desktop');
         const backToTocMobile = document.getElementById('back-to-toc-mobile');
         const mobileHeaderTitle = document.getElementById('mobile-header-title');
-
+        const tocSearchInput = document.getElementById('toc-search-input');
     
 
         // --- VIEW MANAGEMENT ---
@@ -1555,20 +1555,30 @@
         document.addEventListener('DOMContentLoaded', () => {
             
 
-            // Populate TOC and Chapter Content
-            chapters.forEach((chapter, index) => {
-                const tocCard = document.createElement('a');
-                tocCard.href = `#${chapter.id}`;
-                tocCard.className = 'toc-card bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center  ';
-                tocCard.style.willChange = 'transform, box-shadow';
-                tocCard.onclick = (e) => { e.preventDefault(); showChapterView(chapter.id); };
-                tocCard.innerHTML = `
-                    <div class="bg-indigo-100 text-indigo-600 rounded-full h-12 w-12 flex items-center justify-center font-bold text-xl mb-4">${index + 1}</div>
-                    <h3 class="text-xl font-semibold text-slate-800 mb-2">${chapter.title}</h3>
-                    <p class="text-slate-500 text-sm">${chapter.description}</p>
-                `;
-                tocContainer.appendChild(tocCard);
+           // ===== ▼▼▼ 修改此處，將建立卡片的邏輯包裝成函式 ▼▼▼ =====
+            function renderTOCCards(chapterList) {
+                tocContainer.innerHTML = ''; // 先清空容器
+                chapterList.forEach(chapter => {
+                    const index = chapters.findIndex(c => c.id === chapter.id);
+                    const tocCard = document.createElement('a');
+                    tocCard.href = `#${chapter.id}`;
+                    tocCard.className = 'toc-card bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center';
+                    tocCard.style.willChange = 'transform, box-shadow';
+                    tocCard.onclick = (e) => { e.preventDefault(); showChapterView(chapter.id); };
+                    tocCard.innerHTML = `
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full h-12 w-12 flex items-center justify-center font-bold text-xl mb-4">${index + 1}</div>
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">${chapter.title}</h3>
+                        <p class="text-slate-500 text-sm">${chapter.description}</p>
+                    `;
+                    tocContainer.appendChild(tocCard);
+                });
+            }
 
+            // Populate TOC and Chapter Content
+            renderTOCCards(chapters); // 第一次載入時，畫出全部的卡片
+
+            chapters.forEach((chapter, index) => {
+                // 這邊只留下建立 navLink 和 content 的部分
                 const navLink = document.createElement('a');
                 navLink.href = `#${chapter.id}`;
                 navLink.className = `nav-link flex items-center py-3 px-4 rounded-lg transition duration-200 ${index === 0 ? 'active' : ''}`;
@@ -1709,6 +1719,26 @@
             });
 
             renderProgressTable();
+
+            // ===== ▼▼▼ 新增目錄搜尋邏輯 開始 ▼▼▼ =====
+            tocSearchInput.addEventListener('input', (e) => {
+                const query = e.target.value.trim().toLowerCase();
+                
+                if (!query) {
+                    renderTOCCards(chapters); // 如果搜尋框是空的，顯示全部章節
+                    return;
+                }
+
+                // 篩選出標題或描述包含關鍵字的章節
+                const filteredChapters = chapters.filter(chapter => 
+                    chapter.title.toLowerCase().includes(query) || 
+                    chapter.description.toLowerCase().includes(query)
+                );
+                
+                renderTOCCards(filteredChapters); // 只顯示篩選後的結果
+            });
+            // ===== ▲▲▲ 新增目錄搜尋邏輯 結束 ▲▲▲ =====
+
             // --- End of Progress Tracker Logic ---
 // ===== ▼▼▼ 新增的搜尋功能邏輯 開始 ▼▼▼ =====
             const searchInput = document.getElementById('search-input');
@@ -1904,6 +1934,7 @@
     </script>
 </body>
 </html>
+
 
 
 
