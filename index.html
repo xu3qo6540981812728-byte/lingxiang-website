@@ -1600,6 +1600,7 @@
                 mainContentArea.appendChild(content);
             });
             chapterTemplate.remove();
+              createSearchIndex();
             // --- Progress Tracker Logic ---
             const progressItems = [
                 { name: '台灣房市歷史' },
@@ -1840,7 +1841,7 @@
             });
 
             // 6. 頁面載入後立即建立索引
-            createSearchIndex();
+          
 
             // ===== ▲▲▲ 全新、完整的搜尋功能邏輯 結束 ▲▲▲ =====
 
@@ -1911,6 +1912,7 @@
     </script>
 </body>
 </html>
+
 
 
 
