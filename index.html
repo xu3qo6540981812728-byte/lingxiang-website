@@ -1518,7 +1518,12 @@
         const backToTocMobile = document.getElementById('back-to-toc-mobile');
         const mobileHeaderTitle = document.getElementById('mobile-header-title');
         const tocSearchInput = document.getElementById('toc-search-input');
-    
+    const searchInput = document.getElementById('search-input');
+            const resultsContainer = document.getElementById('search-results-container');
+            const resultsHeader = document.getElementById('search-results-header');
+            const resultsList = document.getElementById('search-results-list');
+            let searchableData = [];
+            let currentHighlight = null;
 
         // --- VIEW MANAGEMENT ---
         function showTOC() {
@@ -1733,13 +1738,7 @@
             // --- End of Progress Tracker Logic ---
 // ===== ▼▼▼ 全新、完整的搜尋功能邏輯 開始 ▼▼▼ =====
 
-            // 1. 統一宣告所有搜尋相關的 HTML 元素
-            const searchInput = document.getElementById('search-input');
-            const resultsContainer = document.getElementById('search-results-container');
-            const resultsHeader = document.getElementById('search-results-header');
-            const resultsList = document.getElementById('search-results-list');
-            let searchableData = [];
-            let currentHighlight = null;
+          
 
             // 2. 建立搜尋索引的函式
             function createSearchIndex() {
@@ -1912,6 +1911,7 @@
     </script>
 </body>
 </html>
+
 
 
 
