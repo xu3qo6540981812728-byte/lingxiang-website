@@ -1426,6 +1426,36 @@
 
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
+            
+
+            // Populate TOC and Chapter Content
+            chapters.forEach((chapter, index) => {
+                const tocCard = document.createElement('a');
+                tocCard.href = `#${chapter.id}`;
+                tocCard.className = 'toc-card bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center  ';
+                tocCard.style.willChange = 'transform, box-shadow';
+                tocCard.onclick = (e) => { e.preventDefault(); showChapterView(chapter.id); };
+                tocCard.innerHTML = `
+                    <div class="bg-indigo-100 text-indigo-600 rounded-full h-12 w-12 flex items-center justify-center font-bold text-xl mb-4">${index + 1}</div>
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">${chapter.title}</h3>
+                    <p class="text-slate-500 text-sm">${chapter.description}</p>
+                `;
+                tocContainer.appendChild(tocCard);
+
+                const navLink = document.createElement('a');
+                navLink.href = `#${chapter.id}`;
+                navLink.className = `nav-link flex items-center py-3 px-4 rounded-lg transition duration-200 ${index === 0 ? 'active' : ''}`;
+                navLink.dataset.chapterId = chapter.id;
+                navLink.onclick = (e) => { e.preventDefault(); showContent(chapter.id, navLink); };
+                navLink.innerHTML = `<span class="w-6 text-center mr-3">${index + 1}</span> ${chapter.title}`;
+                sidebarNav.appendChild(navLink);
+
+                const content = chapterTemplate.content.getElementById(chapter.id).cloneNode(true);
+                if (index !== 0) content.style.display = 'none';
+                if (index === 0) content.classList.add('active');
+                mainContentArea.appendChild(content);
+            });
+            chapterTemplate.remove();
             // --- Progress Tracker Logic ---
     const progressItems = [
         { name: '熟悉謄本' },
@@ -1506,35 +1536,6 @@
     renderProgressTable();
     // --- End of Progress Tracker Logic ---
 
-            // Populate TOC and Chapter Content
-            chapters.forEach((chapter, index) => {
-                const tocCard = document.createElement('a');
-                tocCard.href = `#${chapter.id}`;
-                tocCard.className = 'toc-card bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center  ';
-                tocCard.style.willChange = 'transform, box-shadow';
-                tocCard.onclick = (e) => { e.preventDefault(); showChapterView(chapter.id); };
-                tocCard.innerHTML = `
-                    <div class="bg-indigo-100 text-indigo-600 rounded-full h-12 w-12 flex items-center justify-center font-bold text-xl mb-4">${index + 1}</div>
-                    <h3 class="text-xl font-semibold text-slate-800 mb-2">${chapter.title}</h3>
-                    <p class="text-slate-500 text-sm">${chapter.description}</p>
-                `;
-                tocContainer.appendChild(tocCard);
-
-                const navLink = document.createElement('a');
-                navLink.href = `#${chapter.id}`;
-                navLink.className = `nav-link flex items-center py-3 px-4 rounded-lg transition duration-200 ${index === 0 ? 'active' : ''}`;
-                navLink.dataset.chapterId = chapter.id;
-                navLink.onclick = (e) => { e.preventDefault(); showContent(chapter.id, navLink); };
-                navLink.innerHTML = `<span class="w-6 text-center mr-3">${index + 1}</span> ${chapter.title}`;
-                sidebarNav.appendChild(navLink);
-
-                const content = chapterTemplate.content.getElementById(chapter.id).cloneNode(true);
-                if (index !== 0) content.style.display = 'none';
-                if (index === 0) content.classList.add('active');
-                mainContentArea.appendChild(content);
-            });
-            chapterTemplate.remove();
-
             // Password Protection
             const modal = document.getElementById('password-modal');
             const passwordInput = document.getElementById('password-input');
@@ -1600,6 +1601,7 @@
     </script>
 </body>
 </html>
+
 
 
 
