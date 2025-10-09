@@ -1644,59 +1644,7 @@
     </template>
 
     <script>
-        // --- 使用者帳號密碼設定 ---
-    // 您可以在這裡新增或修改登入者的帳號密碼
-    const users = [
-        { username: 'C73449', password: '19940201' },
-        { username: 'C84730', password: '19851010' },
-        { username: 'C80624', password: '19930109' },
-        { username: 'page', password: 'page0201' }
-    ];
-    // ▲▲▲ 新增區塊結束 ▲▲▲
-        // --- 浮水印生成函數 ---
-    function createWatermark(username) {
-        // 檢查頁面上是否已經有浮水印，避免重複生成
-        if (document.querySelector('.watermark')) {
-            return;
-        }
-        const watermark = document.createElement('div');
-        watermark.className = 'watermark';
-        watermark.textContent = `內部課程 | 使用者: ${username}`;
-        document.body.appendChild(watermark);
-    }
-    // ▲▲▲ 新增區塊結束 ▲▲▲
-         // --- 全頁浮水印生成函數 ---
-    function createFullPageWatermark(username) {
-        // 檢查頁面上是否已經有浮水印，避免重複生成
-        if (document.querySelector('.full-page-watermark-bg')) {
-            return;
-        }
-
-        // 1. 建立一個包含使用者名稱的 SVG 圖片內容
-        const svgString = `
-            <svg width="250" height="180" xmlns="http://www.w3.org/2000/svg">
-                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
-                      transform="rotate(-30, 125, 90)"
-                      style="font-size: 20px; font-family: 'Noto Sans TC', sans-serif; fill: rgba(0,0,0,0.08); font-weight: 700;">
-                    ${username}
-                </text>
-            </svg>`;
-
-        // 2. 將 SVG 轉為 Base64 編碼
-        const encodedSvg = btoa(svgString);
-        
-        // 3. 組合出 data URL
-        const dataUrl = `url("data:image/svg+xml;base64,${encodedSvg}")`;
-
-        // 4. 建立一個 div 元素並套用樣式
-        const watermarkDiv = document.createElement('div');
-        watermarkDiv.className = 'full-page-watermark-bg';
-        watermarkDiv.style.backgroundImage = dataUrl;
-        
-        // 5. 將這個 div 加到頁面上
-        document.body.appendChild(watermarkDiv);
-    }
-    // ▲▲▲ 新增區塊結束 ▲▲▲
+      
         // --- DATA ---
         const chapters = [
             { id: 'chapter0', title: '新人課程進度表', description: '追蹤你的學習進度' },
@@ -2084,6 +2032,7 @@
     </script>
 </body>
 </html>
+
 
 
 
