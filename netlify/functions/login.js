@@ -3,15 +3,15 @@ const fs = require('fs');
 const path = require('path');
 
 const users = [
-    #李培智
+    李培智
     { username: 'C73449', password: '19940201' },
-    #李志仁
+    李志仁
     { username: 'C84730', password: '19851010' },
-    #葉欣宜
+    葉欣宜
     { username: 'C80624', password: '19930109' },
-    #劉懷懋
+    劉懷懋
     { username: 'C91517', password: '20010721' },
-    #林俊翔
+    林俊翔
     { username: 'C87976', password: '19980216' }
 ];
 
@@ -40,5 +40,6 @@ exports.handler = async function(event, context) {
         return { statusCode: 500, body: JSON.stringify({ message: '伺服器發生內部錯誤' }) };
     }
 };
+
 
 
