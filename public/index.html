@@ -26,10 +26,18 @@
 
    <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // ... (上方的 usernameInput, passwordInput 等元素選擇器不變)
+    // 【您遺漏的部分】用來連接 HTML 元素的變數
+    const usernameInput = document.getElementById('username-input');
+    const passwordInput = document.getElementById('password-input');
+    const submitButton = document.getElementById('submit-password');
+    const errorMessage = document.getElementById('error-message');
 
     async function handleLogin() {
-        // ... (上方的 username, password 抓取等邏輯不變)
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+        errorMessage.textContent = '';
+        submitButton.disabled = true;
+        submitButton.textContent = '登入中...';
 
         try {
             const response = await fetch('/.netlify/functions/login', {
@@ -41,13 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok && data.success) {
                 // 登入成功！
-                // 1. 將使用者名稱暫存起來，給課程頁面使用
-                // sessionStorage 的特性是分頁關閉後自動清除，比 localStorage 安全
                 sessionStorage.setItem('loggedInUser', data.username);
-                
-                // 2. 直接跳轉到課程頁面
                 window.location.href = '/course.html';
-
             } else {
                 errorMessage.textContent = data.message || '登入失敗，請重試。';
                 passwordInput.value = '';
@@ -61,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 【您遺漏的部分】將函式綁定到按鈕上
     submitButton.addEventListener('click', handleLogin);
     passwordInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
     usernameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') passwordInput.focus(); });
@@ -68,3 +72,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
