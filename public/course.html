@@ -203,11 +203,11 @@
         <!-- Chapter Detail View -->
         <div id="chapter-view" class="relative min-h-screen md:flex" style="display: none;">
 
-            <button id="prev-chapter-btn" style="display: none;" class="fixed bottom-20 left-6 z-30 inline-flex items-center justify-center w-14 h-14 md:w-auto md:h-auto md:py-3 md:px-6 bg-indigo-600 text-white rounded-full md:rounded-lg shadow-lg hover:bg-indigo-700 transition duration-200 md:hidden">
+            <button id="prev-chapter-btn" ;" class="hidden fixed bottom-20 left-6 z-30 inline-flex items-center justify-center w-14 h-14 md:w-auto md:h-auto md:py-3 md:px-6 bg-indigo-600 text-white rounded-full md:rounded-lg shadow-lg hover:bg-indigo-700 transition duration-200 md:hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                 <span class="hidden md:inline ml-2 font-semibold">上一章</span>
             </button>
-            <button id="next-chapter-btn" style="display: none;" class="fixed bottom-20 right-6 z-30 inline-flex items-center justify-center w-14 h-14 md:w-auto md:h-auto md:py-3 md:px-6 bg-indigo-600 text-white rounded-full md:rounded-lg shadow-lg hover:bg-indigo-700 transition duration-200 md:hidden">
+            <button id="next-chapter-btn" ;" class="hidden fixed bottom-20 right-6 z-30 inline-flex items-center justify-center w-14 h-14 md:w-auto md:h-auto md:py-3 md:px-6 bg-indigo-600 text-white rounded-full md:rounded-lg shadow-lg hover:bg-indigo-700 transition duration-200 md:hidden">
                 <span class="hidden md:inline mr-2 font-semibold">下一章</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
             </button>
@@ -1753,8 +1753,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
         // 【新加入】在目錄頁時，隱藏懸浮按鈕
-        prevChapterBtn.style.display = 'none';
-        nextChapterBtn.style.display = 'none';
+       prevChapterBtn.classList.add('hidden');
+        nextChapterBtn.classList.add('hidden');
     }
 
     function showChapterView(chapterId) {
@@ -1792,7 +1792,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // --- 處理「上一章」按鈕 ---
         if (currentIndex > 0) {
             const prevChapterId = chapters[currentIndex - 1].id;
-            prevChapterBtn.style.display = 'inline-flex';
+            prevChapterBtn.classList.remove('hidden');
             // 每次都重新綁定點擊事件，確保跳轉到正確的章節
             prevChapterBtn.onclick = () => {
                 const prevNavLink = sidebarNav.querySelector(`[data-chapter-id="${prevChapterId}"]`);
@@ -1800,20 +1800,20 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         } else {
             // 如果是第一章，就隱藏按鈕
-            prevChapterBtn.style.display = 'none';
+            prevChapterBtn.classList.add('hidden');
         }
 
         // --- 處理「下一章」按鈕 ---
         if (currentIndex < chapters.length - 1) {
             const nextChapterId = chapters[currentIndex + 1].id;
-            nextChapterBtn.style.display = 'inline-flex';
+            nextChapterBtn.classList.remove('hidden');
             nextChapterBtn.onclick = () => {
                 const nextNavLink = sidebarNav.querySelector(`[data-chapter-id="${nextChapterId}"]`);
                 showContent(nextChapterId, nextNavLink);
             };
         } else {
             // 如果是最後一章，就隱藏按鈕
-            nextChapterBtn.style.display = 'none';
+            nextChapterBtn.classList.add('hidden');
         }
     }
 
@@ -1904,6 +1904,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
