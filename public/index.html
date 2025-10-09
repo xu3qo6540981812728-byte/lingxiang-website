@@ -22,58 +22,54 @@
                 登入課程
             </button>
         </div>
+
+        <footer class="absolute bottom-0 left-0 right-0 text-center py-6 text-sm text-slate-300 w-full">
+            <p>Copyright © 2025 李培智. All Rights Reserved.</p>
+        </footer>
     </div>
 
    <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // 【您遺漏的部分】用來連接 HTML 元素的變數
-    const usernameInput = document.getElementById('username-input');
-    const passwordInput = document.getElementById('password-input');
-    const submitButton = document.getElementById('submit-password');
-    const errorMessage = document.getElementById('error-message');
+    document.addEventListener('DOMContentLoaded', () => {
+        const usernameInput = document.getElementById('username-input');
+        const passwordInput = document.getElementById('password-input');
+        const submitButton = document.getElementById('submit-password');
+        const errorMessage = document.getElementById('error-message');
 
-    async function handleLogin() {
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value;
-        errorMessage.textContent = '';
-        submitButton.disabled = true;
-        submitButton.textContent = '登入中...';
+        async function handleLogin() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+            errorMessage.textContent = '';
+            submitButton.disabled = true;
+            submitButton.textContent = '登入中...';
 
-        try {
-            const response = await fetch('/.netlify/functions/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await response.json();
+            try {
+                const response = await fetch('/.netlify/functions/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await response.json();
 
-            if (response.ok && data.success) {
-                // 登入成功！
-                sessionStorage.setItem('loggedInUser', data.username);
-                window.location.href = '/course.html';
-            } else {
-                errorMessage.textContent = data.message || '登入失敗，請重試。';
-                passwordInput.value = '';
-                passwordInput.focus();
+                if (response.ok && data.success) {
+                    sessionStorage.setItem('loggedInUser', data.username);
+                    window.location.href = '/course.html';
+                } else {
+                    errorMessage.textContent = data.message || '登入失敗，請重試。';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            } catch (error) {
+                errorMessage.textContent = '網路連線錯誤，請稍後再試。';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = '登入課程';
             }
-        } catch (error) {
-            errorMessage.textContent = '網路連線錯誤，請稍後再試。';
-        } finally {
-            submitButton.disabled = false;
-            submitButton.textContent = '登入課程';
         }
-    }
 
-    // 【您遺漏的部分】將函式綁定到按鈕上
-    submitButton.addEventListener('click', handleLogin);
-    passwordInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
-    usernameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') passwordInput.focus(); });
-});
-</script>
-    <footer class="text-center py-6 text-sm text-slate-500 w-full">
-    <p>Copyright © 2025 李培智. All Rights Reserved.</p>
-</footer>
+        submitButton.addEventListener('click', handleLogin);
+        passwordInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
+        usernameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') passwordInput.focus(); });
+    });
+   </script>
 </body>
 </html>
-
-
