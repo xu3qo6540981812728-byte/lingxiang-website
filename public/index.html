@@ -24,67 +24,47 @@
         </div>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const usernameInput = document.getElementById('username-input');
-        const passwordInput = document.getElementById('password-input');
-        const submitButton = document.getElementById('submit-password');
-        const errorMessage = document.getElementById('error-message');
+   <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // ... (上方的 usernameInput, passwordInput 等元素選擇器不變)
 
-        async function handleLogin() {
-            const username = usernameInput.value.trim();
-            const password = passwordInput.value;
-            errorMessage.textContent = ''; // 清空錯誤訊息
-            submitButton.disabled = true; // 防止重複點擊
-            submitButton.textContent = '登入中...';
+    async function handleLogin() {
+        // ... (上方的 username, password 抓取等邏輯不變)
 
-            try {
-                // 向我們的後端 login.js 發送請求
-                const response = await fetch('/.netlify/functions/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
+        try {
+            const response = await fetch('/.netlify/functions/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await response.json();
 
-                const data = await response.json();
+            if (response.ok && data.success) {
+                // 登入成功！
+                // 1. 將使用者名稱暫存起來，給課程頁面使用
+                // sessionStorage 的特性是分頁關閉後自動清除，比 localStorage 安全
+                sessionStorage.setItem('loggedInUser', data.username);
+                
+                // 2. 直接跳轉到課程頁面
+                window.location.href = '/course.html';
 
-                if (response.ok && data.success) {
-                    // 登入成功！用後端傳來的 HTML 內容，直接替換掉整個網頁
-                    document.documentElement.innerHTML = data.html;
-                    // 因為頁面被替換了，需要重新執行 course-content.html 裡面的 script
-                    // 這是一個小技巧，可以找到並執行新的 script 標籤
-                    Array.from(document.querySelectorAll("script")).forEach(oldScript => {
-                        const newScript = document.createElement("script");
-                        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                        newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-                        oldScript.parentNode.replaceChild(newScript, oldScript);
-                    });
-// 執行浮水印函式，並傳入從後端拿到的使用者名稱
-    if (typeof window.createWatermark === 'function') {
-        window.createWatermark(data.username);
-    }
-    if (typeof window.createFullPageWatermark === 'function') {
-        window.createFullPageWatermark(data.username);
-    }
-                } else {
-                    // 登入失敗
-                    errorMessage.textContent = data.message || '登入失敗，請重試。';
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                }
-            } catch (error) {
-                errorMessage.textContent = '網路連線錯誤，請稍後再試。';
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = '登入課程';
+            } else {
+                errorMessage.textContent = data.message || '登入失敗，請重試。';
+                passwordInput.value = '';
+                passwordInput.focus();
             }
+        } catch (error) {
+            errorMessage.textContent = '網路連線錯誤，請稍後再試。';
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = '登入課程';
         }
+    }
 
-        submitButton.addEventListener('click', handleLogin);
-        passwordInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
-        usernameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') passwordInput.focus(); });
-    });
-    </script>
+    submitButton.addEventListener('click', handleLogin);
+    passwordInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
+    usernameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') passwordInput.focus(); });
+});
+</script>
 </body>
-
 </html>
