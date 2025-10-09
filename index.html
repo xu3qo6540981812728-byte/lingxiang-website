@@ -2124,10 +2124,28 @@
             };
             menuButton.addEventListener('click', toggleMenu);
             overlay.addEventListener('click', toggleMenu);
+            // --- Logout Logic ---
+            const logoutButton = document.getElementById('logout-button');
+
+            // 確保按鈕存在才執行後續動作，避免報錯
+            if (logoutButton) {
+                function logoutUser() {
+                    // 1. 清除瀏覽器中儲存的登入狀態
+                    localStorage.removeItem('loggedInUser');
+                    localStorage.removeItem('loginTimestamp');
+                    
+                    // 2. 重新整理頁面，頁面會因為找不到登入狀態而自動跳回登入畫面
+                    location.reload();
+                }
+
+                // 3. 為按鈕加上點擊事件，當被點擊時，就去執行 logoutUser 這個函式
+                logoutButton.addEventListener('click', logoutUser);
+            }
         });
     </script>
 </body>
 </html>
+
 
 
 
