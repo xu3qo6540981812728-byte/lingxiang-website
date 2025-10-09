@@ -59,7 +59,13 @@
                         newScript.appendChild(document.createTextNode(oldScript.innerHTML));
                         oldScript.parentNode.replaceChild(newScript, oldScript);
                     });
-
+// 執行浮水印函式，並傳入從後端拿到的使用者名稱
+    if (typeof window.createWatermark === 'function') {
+        window.createWatermark(data.username);
+    }
+    if (typeof window.createFullPageWatermark === 'function') {
+        window.createFullPageWatermark(data.username);
+    }
                 } else {
                     // 登入失敗
                     errorMessage.textContent = data.message || '登入失敗，請重試。';
@@ -80,4 +86,5 @@
     });
     </script>
 </body>
+
 </html>
