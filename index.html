@@ -2039,7 +2039,7 @@
 
         if (loggedInUser && loginTimestamp) {
             const currentTime = Date.now();
-            const oneHourInMs = 5 * 60 * 1000; // 5分鐘的毫秒數 (60分 * 60秒 * 1000毫秒)
+            const fiveMinutesInMs = 5 * 60 * 1000; // 5分鐘的毫秒數 (60分 * 60秒 * 1000毫秒)
             const elapsedTime = currentTime - loginTimestamp;
 
            if (elapsedTime > fiveMinutesInMs) {
@@ -2120,6 +2120,7 @@
     </script>
 </body>
 </html>
+
 
 
 
