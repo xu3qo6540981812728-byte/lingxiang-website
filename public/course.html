@@ -1644,7 +1644,28 @@
     </template>
 
     <script>
-      
+      document.addEventListener('DOMContentLoaded', () => {
+    // ★★★★★【新增的保護機制】★★★★★
+    const loggedInUser = sessionStorage.getItem('loggedInUser');
+    
+    // 如果 sessionStorage 裡沒有登入者資訊，就跳轉回登入頁面
+    if (!loggedInUser) {
+        window.location.href = '/index.html';
+        return; // 中斷後續所有程式碼的執行
+    }
+    
+    // 如果有登入者資訊，就執行浮水印功能
+    if (typeof createWatermark === 'function') {
+        createWatermark(loggedInUser);
+    }
+    if (typeof createFullPageWatermark === 'function') {
+        createFullPageWatermark(loggedInUser);
+    }
+    // ★★★★★★★★★★★★★★★★★★★★★
+
+    // 讓課程內容顯示出來
+    const appWrapper = document.getElementById('app-wrapper');
+    appWrapper.style.display = 'block';
         // --- DATA ---
         const chapters = [
             { id: 'chapter0', title: '新人課程進度表', description: '追蹤你的學習進度' },
@@ -2032,6 +2053,7 @@
     </script>
 </body>
 </html>
+
 
 
 
