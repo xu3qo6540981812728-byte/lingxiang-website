@@ -26,8 +26,8 @@ exports.handler = async function(event, context) {
 
         if (foundUser) {
             // 4. 如果驗證成功，讀取課程內容 HTML 檔案
-            const coursePath = path.resolve(__dirname, 'course-content.html'); 
-            const courseHTML = fs.readFileSync(coursePath, 'utf8');
+            //const coursePath = path.resolve(__dirname, 'course-content.html'); 
+            //const courseHTML = fs.readFileSync(coursePath, 'utf8');
             
             // 5. 將課程內容回傳給前端，並帶上使用者名稱
             return {
@@ -35,7 +35,7 @@ exports.handler = async function(event, context) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
                     success: true, 
-                    html: courseHTML,
+                    html: "<h1>Login OK</h1>",
                     username: foundUser.username // 把使用者名稱也傳回去
                 })
             };
@@ -51,3 +51,4 @@ exports.handler = async function(event, context) {
     }
 
 };
+
