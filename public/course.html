@@ -1842,12 +1842,23 @@ document.addEventListener('DOMContentLoaded', () => {
     menuButton.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
 
-    const logoutButton = document.getElementById('logout-button');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => {
-            sessionStorage.removeItem('loggedInUser'); // 改用 sessionStorage
-            window.location.href = '/index.html'; // 直接跳轉回登入頁
-        });
+    // --- Logout Logic (支援側邊欄與目錄頁兩個按鈕) ---
+    const logoutButtonSidebar = document.getElementById('logout-button');
+    const logoutButtonTOC = document.getElementById('logout-button-toc');
+
+    // 建立一個共用的登出函式
+    function performLogout() {
+        sessionStorage.removeItem('loggedInUser'); // 清除登入狀態
+        window.location.href = '/index.html'; // 跳轉回登入頁
+    }
+
+    // 幫側邊欄的按鈕綁定登出功能
+    if (logoutButtonSidebar) {
+        logoutButtonSidebar.addEventListener('click', performLogout);
+    }
+    // 幫目錄頁的新按鈕也綁定登出功能
+    if (logoutButtonTOC) {
+        logoutButtonTOC.addEventListener('click', performLogout);
     }
 
     // 初始顯示目錄
@@ -1857,6 +1868,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
