@@ -142,22 +142,40 @@
     transform: translateX(-50%);
     top: 230px; /* 調整彈窗與搜尋框的距離 */
 }
+        .watermark {
+    position: fixed; /* 固定在畫面上，不隨滾動移動 */
+    bottom: 30px; /* 距離底部 30px */
+    right: 30px; /* 距離右側 30px */
+    font-size: 18px; /* 字體大小 */
+    font-weight: 700; /* 字體粗細 */
+    color: rgba(0, 0, 0, 0.15); /* 半透明的深灰色 */
+    pointer-events: none; /* 讓滑鼠可以穿透浮水印，點擊到底下內容 */
+    z-index: 9999; /* 確保在最上層 */
+    -webkit-user-select: none; /* 讓文字無法被選取 */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
     </style>
 </head>
 <body class="bg-slate-100">
 
     <!-- Password Protection Modal -->
     <div id="password-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75 backdrop-blur-sm">
-        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm text-center transform transition-all" style="animation: zoomIn 0.3s ease-out;">
-            <h2 class="text-2xl font-bold text-slate-800 mb-4">請輸入通關密碼</h2>
-            <p class="text-slate-500 mb-6">此為內部訓練課程，請輸入密碼以繼續。</p>
-            <input type="password" id="password-input" class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg text-center text-lg tracking-widest focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="••••••">
-            <p id="error-message" class="text-red-500 h-6 mt-2 text-sm"></p>
-            <button id="submit-password" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 mt-4">
-                進入課程
-            </button>
-        </div>
+    <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm text-center transform transition-all" style="animation: zoomIn 0.3s ease-out;">
+        <h2 class="text-2xl font-bold text-slate-800 mb-4">課程系統登入</h2>
+        <p class="text-slate-500 mb-6">此為內部訓練課程，請輸入您的帳號密碼。</p>
+
+        <input type="text" id="username-input" class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg text-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition mb-4" placeholder="請輸入帳號">
+
+        <input type="password" id="password-input" class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg text-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="請輸入密碼">
+
+        <p id="error-message" class="text-red-500 h-6 mt-2 text-sm"></p>
+        <button id="submit-password" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300 mt-4">
+            登入課程
+        </button>
     </div>
+</div>
 
     <!-- Main Wrapper -->
     <div id="app-wrapper" style="display: none;">
@@ -1622,6 +1640,27 @@
     </template>
 
     <script>
+        // --- 使用者帳號密碼設定 ---
+    // 您可以在這裡新增或修改登入者的帳號密碼
+    const users = [
+        { username: 'C73449', password: '19940201' },
+        { username: '王小明', password: 'abc' },
+        { username: '陳小姐', password: 'mima' },
+        { username: 'page', password: 'page0201' }
+    ];
+    // ▲▲▲ 新增區塊結束 ▲▲▲
+        // --- 浮水印生成函數 ---
+    function createWatermark(username) {
+        // 檢查頁面上是否已經有浮水印，避免重複生成
+        if (document.querySelector('.watermark')) {
+            return;
+        }
+        const watermark = document.createElement('div');
+        watermark.className = 'watermark';
+        watermark.textContent = `內部課程 | 使用者: ${username}`;
+        document.body.appendChild(watermark);
+    }
+    // ▲▲▲ 新增區塊結束 ▲▲▲
         // --- DATA ---
         const chapters = [
             { id: 'chapter0', title: '新人課程進度表', description: '追蹤你的學習進度' },
@@ -1981,7 +2020,11 @@
             const submitButton = document.getElementById('submit-password');
             const errorMessage = document.getElementById('error-message');
             
-            const unlockContent = () => {
+             const unlockContent = () => {
+                const loggedInUser = localStorage.getItem('loggedInUser'); // 新增：取得登入者是誰
+                if (loggedInUser) { // 新增：如果有人登入
+                    createWatermark(loggedInUser); // 新增：就建立浮水印
+                }
                 modal.style.transition = 'opacity 0.3s ease-out';
                 modal.style.opacity = '0';
                 setTimeout(() => {
@@ -1991,21 +2034,35 @@
                 }, 300);
             };
 
-            if (localStorage.getItem('isVerified') === 'true') {
+             const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
                 unlockContent();
             } else {
                 modal.style.display = 'flex';
-                passwordInput.focus();
+                document.getElementById('username-input').focus(); 
             }
+               
 
-            function checkPassword() {
-                if (passwordInput.value === 'page0201') {
-                    localStorage.setItem('isVerified', 'true');
+            function checkLogin() {
+                // 由於 HTML 結構改變了，我們要重新抓取輸入框元素
+                const usernameInput = document.getElementById('username-input');
+                const passwordInput = document.getElementById('password-input');
+                
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value;
+                
+                // 在 users 陣列中尋找匹配的帳號密碼
+                const foundUser = users.find(user => user.username === username && user.password === password);
+
+                if (foundUser) {
+                    // 儲存的是使用者名稱，而不是 'true'
+                    localStorage.setItem('loggedInUser', foundUser.username); 
                     unlockContent();
                 } else {
-                    errorMessage.textContent = '密碼錯誤，請重試。';
+                    errorMessage.textContent = '帳號或密碼錯誤，請重試。';
+                    usernameInput.value = ''; // 清空帳號
                     passwordInput.value = '';
-                    passwordInput.focus();
+                    usernameInput.focus(); // 讓使用者重新輸入帳號
                     modal.querySelector('div').animate([
                         { transform: 'translateX(0)' }, { transform: 'translateX(-10px)' },
                         { transform: 'translateX(10px)' }, { transform: 'translateX(-10px)' },
@@ -2014,11 +2071,16 @@
                 }
             }
 
-            submitButton.addEventListener('click', checkPassword);
+            submitButton.addEventListener('click', checkLogin);
             passwordInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    checkPassword();
+                    checkLogin();
+                }
+            });
+            document.getElementById('username-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById('password-input').focus();
                 }
             });
             
@@ -2040,6 +2102,7 @@
     </script>
 </body>
 </html>
+
 
 
 
