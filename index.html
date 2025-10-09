@@ -1644,8 +1644,8 @@
     // 您可以在這裡新增或修改登入者的帳號密碼
     const users = [
         { username: 'C73449', password: '19940201' },
-        { username: '王小明', password: 'abc' },
-        { username: '陳小姐', password: 'mima' },
+        { username: 'C84730', password: '19851010' },
+        { username: 'c80624', password: '19930109' },
         { username: 'page', password: 'page0201' }
     ];
     // ▲▲▲ 新增區塊結束 ▲▲▲
@@ -2035,12 +2035,28 @@
             };
 
              const loggedInUser = localStorage.getItem('loggedInUser');
-            if (loggedInUser) {
-                unlockContent();
-            } else {
+           const loginTimestamp = localStorage.getItem('loginTimestamp');
+
+        if (loggedInUser && loginTimestamp) {
+            const currentTime = Date.now();
+            const oneHourInMs = 5 * 60 * 1000; // 5分鐘的毫秒數 (60分 * 60秒 * 1000毫秒)
+            const elapsedTime = currentTime - loginTimestamp;
+
+           if (elapsedTime > fiveMinutesInMs) {
+                // 如果超過5分鐘，就登出
+                localStorage.removeItem('loggedInUser');
+                localStorage.removeItem('loginTimestamp');
                 modal.style.display = 'flex';
-                document.getElementById('username-input').focus(); 
+                document.getElementById('username-input').focus();
+            } else {
+                // 未超過1小時，正常顯示內容
+                unlockContent();
             }
+        } else {
+            // 如果沒有登入資訊，顯示登入畫面
+            modal.style.display = 'flex';
+            document.getElementById('username-input').focus();
+        }
                
 
             function checkLogin() {
@@ -2057,6 +2073,8 @@
                 if (foundUser) {
                     // 儲存的是使用者名稱，而不是 'true'
                     localStorage.setItem('loggedInUser', foundUser.username); 
+                    // ▼▼▼ 在這裡新增一行程式碼 ▼▼▼
+                    localStorage.setItem('loginTimestamp', Date.now()); // 儲存當下的時間戳記
                     unlockContent();
                 } else {
                     errorMessage.textContent = '帳號或密碼錯誤，請重試。';
@@ -2102,6 +2120,7 @@
     </script>
 </body>
 </html>
+
 
 
 
