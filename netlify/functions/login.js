@@ -7,7 +7,8 @@ const users = [
 { username: 'C84730', password: '19851010', name: '李志仁' },
 { username: 'C80624', password: '19930109', name: '葉欣宜' },
 { username: 'C91517', password: '20010721', name: '劉懷懋' },
-{ username: 'C87976', password: '19980216', name: '林俊翔' }
+{ username: 'C87976', password: '19980216', name: '林俊翔' },
+{ username: 'guest', password: '20251009', name: '訪客' }
 ];
 
 exports.handler = async function(event, context) {
@@ -35,6 +36,7 @@ exports.handler = async function(event, context) {
         return { statusCode: 500, body: JSON.stringify({ message: '伺服器發生內部錯誤' }) };
     }
 };
+
 
 
 
