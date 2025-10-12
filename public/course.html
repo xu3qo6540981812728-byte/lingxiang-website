@@ -2004,15 +2004,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================
     const loggedInUser = sessionStorage.getItem('loggedInUser');
     
-    if (!loggedInUser) {
-        window.location.href = '/index.html';
-        return; 
-    }
+    // 為了方便測試，暫時註解掉跳轉，您可以稍後取消註解
+    // if (!loggedInUser) {
+    //     window.location.href = '/index.html';
+    //     return; 
+    // }
     
     function createWatermark(username) {
         const watermark = document.createElement('div');
         watermark.className = 'watermark';
-        watermark.textContent = `使用者帳號 - ${username}`;
+        watermark.textContent = `使用者帳號 - ${username || '測試用戶'}`;
         document.body.appendChild(watermark);
     }
     
@@ -2024,7 +2025,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <defs>
                     <pattern id="pattern-watermark" x="0" y="0" width="300" height="300" patternUnits="userSpaceOnUse">
                         <text x="150" y="150" font-family="Arial, sans-serif" font-size="50" fill="rgba(0,0,0,0.08)" text-anchor="middle" dominant-baseline="middle" transform="rotate(-30, 150, 150)">
-                            ${username}
+                            ${username || '測試用戶'}
                         </text>
                     </pattern>
                 </defs>
@@ -2106,7 +2107,8 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarNav.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
         if (element) {
             element.classList.add('active');
-            mobileHeaderTitle.textContent = element.textContent.trim().substring(2);
+            const chapterIndex = chapters.findIndex(c => c.id === sectionId);
+            mobileHeaderTitle.textContent = element.textContent.trim().substring(String(chapterIndex).length).trim();
         }
 
         mainContentArea.scrollTop = 0;
@@ -2172,27 +2174,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // 渲染目錄
     renderTOCList(chapters);
 
-    // 【★關鍵★】載入所有章節內容與側邊欄
-   chapters.forEach((chapter, index) => {
-    // 1. 建立側邊欄連結
-    const navLink = document.createElement('a');
-    navLink.href = `#${chapter.id}`;
-    // 【修正一】如果這是第一個連結 (index === 0)，就自動加上 'active' class
-    navLink.className = `nav-link flex items-center py-3 px-4 rounded-lg transition duration-200 ${index === 0 ? 'active' : ''}`;
-    navLink.dataset.chapterId = chapter.id;
-    navLink.onclick = (e) => { e.preventDefault(); showContent(chapter.id, navLink); };
-    navLink.innerHTML = `<span class="w-6 text-center mr-3">${index}</span> ${chapter.title}`;
-    sidebarNav.appendChild(navLink);
+    // 【★關鍵修正★】載入所有章節內容與側邊欄，並設定好初始狀態
+    chapters.forEach((chapter, index) => {
+        // 1. 建立側邊欄連結
+        const navLink = document.createElement('a');
+        navLink.href = `#${chapter.id}`;
+        // 【修正一】如果這是第一個連結 (index === 0)，就自動加上 'active' class
+        navLink.className = `nav-link flex items-center py-3 px-4 rounded-lg transition duration-200 ${index === 0 ? 'active' : ''}`;
+        navLink.dataset.chapterId = chapter.id;
+        navLink.onclick = (e) => { e.preventDefault(); showContent(chapter.id, navLink); };
+        navLink.innerHTML = `<span class="w-6 text-center mr-3">${index}</span> ${chapter.title}`;
+        sidebarNav.appendChild(navLink);
 
-    // 2. 從 template 複製內容並加入到主顯示區
-    const content = chapterTemplate.content.querySelector('#' + chapter.id).cloneNode(true);
-    // 【修正二】如果這是第一個內容區塊 (index === 0)，就自動加上 'active' class 讓它顯示出來
-    if (index === 0) {
-        content.classList.add('active');
-    }
-    mainContentArea.appendChild(content);
-});
-chapterTemplate.remove();
+        // 2. 從 template 複製內容並加入到主顯示區
+        const content = chapterTemplate.content.querySelector('#' + chapter.id).cloneNode(true);
+        // 【修正二】如果這是第一個內容區塊 (index === 0)，就自動加上 'active' class 讓它顯示出來
+        if (index === 0) {
+            content.classList.add('active');
+        }
+        mainContentArea.appendChild(content);
+    });
+    chapterTemplate.remove();
     
     // 初始化搜尋索引
     createSearchIndex();
@@ -2202,7 +2204,7 @@ chapterTemplate.remove();
     const progressTableBody = document.getElementById('progress-table');
     const resetProgressButton = document.getElementById('reset-progress');
     let progressData = JSON.parse(localStorage.getItem('progressData')) || {};
-    function renderProgressTable() { progressTableBody.innerHTML = ''; progressItems.forEach((item, index) => { if (item.type === 'header') { const headerDiv = document.createElement('div'); headerDiv.innerHTML = `<div class="py-3 px-4 bg-slate-200 text-slate-700 font-bold text-base md:rounded-none">${item.name}</div>`; progressTableBody.appendChild(headerDiv); return; } const isChecked = progressData[index]?.checked || false; const itemWrapper = document.createElement('div'); itemWrapper.className = 'progress-item grid grid-cols-1 md:grid-cols-[1fr_100px_2fr] gap-x-4 border-t border-slate-200 px-4 py-4 hover:bg-slate-50'; let countInputsHTML = ''; if (item.counts) { const inputs = item.counts.map(countName => { const value = progressData[index]?.counts?.[countName] || ''; return ` <div class="flex items-center space-x-2"> <label class="text-slate-600 w-24 text-right flex-shrink-0">${countName}:</label> <input type="text" value="${value}" data-index="${index}" data-count-name="${countName}" class="count-input w-full text-center border rounded py-1 px-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition" placeholder="請輸入次數"> </div>`; }).join(''); countInputsHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 md:mt-0">${inputs}</div>`; } itemWrapper.innerHTML = ` <div class="flex items-center text-slate-700 font-medium"> ${item.name} </div> <div class="flex items-center justify-start md:justify-center mt-2 md:mt-0"> <label class="flex items-center space-x-2 md:space-x-0 cursor-pointer"> <span class="md:hidden text-slate-500">完成狀態:</span> <input type="checkbox" data-index="${index}" class="h-6 w-6 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" ${isChecked ? 'checked' : ''}> </label> </div> <div class="mt-2 md:mt-0"> ${countInputsHTML ? `<div class="md:hidden text-slate-500 mb-2">次數紀錄:</div>` : ''} ${countInputsHTML} </div> `; progressTableBody.appendChild(itemWrapper); }); }
+    function renderProgressTable() { if (!progressTableBody) return; progressTableBody.innerHTML = ''; progressItems.forEach((item, index) => { if (item.type === 'header') { const headerDiv = document.createElement('div'); headerDiv.innerHTML = `<div class="py-3 px-4 bg-slate-200 text-slate-700 font-bold text-base md:rounded-none">${item.name}</div>`; progressTableBody.appendChild(headerDiv); return; } const isChecked = progressData[index]?.checked || false; const itemWrapper = document.createElement('div'); itemWrapper.className = 'progress-item grid grid-cols-1 md:grid-cols-[1fr_100px_2fr] gap-x-4 border-t border-slate-200 px-4 py-4 hover:bg-slate-50'; let countInputsHTML = ''; if (item.counts) { const inputs = item.counts.map(countName => { const value = progressData[index]?.counts?.[countName] || ''; return ` <div class="flex items-center space-x-2"> <label class="text-slate-600 w-24 text-right flex-shrink-0">${countName}:</label> <input type="text" value="${value}" data-index="${index}" data-count-name="${countName}" class="count-input w-full text-center border rounded py-1 px-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition" placeholder="請輸入次數"> </div>`; }).join(''); countInputsHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 md:mt-0">${inputs}</div>`; } itemWrapper.innerHTML = ` <div class="flex items-center text-slate-700 font-medium"> ${item.name} </div> <div class="flex items-center justify-start md:justify-center mt-2 md:mt-0"> <label class="flex items-center space-x-2 md:space-x-0 cursor-pointer"> <span class="md:hidden text-slate-500">完成狀態:</span> <input type="checkbox" data-index="${index}" class="h-6 w-6 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" ${isChecked ? 'checked' : ''}> </label> </div> <div class="mt-2 md:mt-0"> ${countInputsHTML ? `<div class="md:hidden text-slate-500 mb-2">次數紀錄:</div>` : ''} ${countInputsHTML} </div> `; progressTableBody.appendChild(itemWrapper); }); }
     function saveProgress() { localStorage.setItem('progressData', JSON.stringify(progressData)); }
     if (progressTableBody) {
         progressTableBody.addEventListener('input', (e) => { const index = e.target.dataset.index; if (index === undefined) return; if (!progressData[index]) { progressData[index] = {}; } if (e.target.type === 'checkbox') { progressData[index].checked = e.target.checked; } else if (e.target.classList.contains('count-input')) { const countName = e.target.dataset.countName; if (!progressData[index].counts) { progressData[index].counts = {}; } progressData[index].counts[countName] = e.target.value; } saveProgress(); });
@@ -2252,6 +2254,7 @@ chapterTemplate.remove();
 
 </body>
 </html>
+
 
 
 
