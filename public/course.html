@@ -10,87 +10,167 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-    body {
-        font-family: 'Inter', 'Noto Sans TC', sans-serif;
-        /* 【步驟一】更換為漸層背景 */
-        background-image: linear-gradient(to top right, #3b82f6, #a855f7, #ec4899);
-        background-attachment: fixed;
-    }
-    /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #e2e8f0; }
-    ::-webkit-scrollbar-thumb { background-color: #4338ca; border-radius: 10px; border: 2px solid #f0f4f8; }
-    ::-webkit-scrollbar-thumb:hover { background-color: #312e81; }
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #f0f4f8;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #4338ca;
+            border-radius: 10px;
+            border: 2px solid #f0f4f8;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #312e81;
+        }
 
-    /* 【步驟二】改造 Sidebar */
-    .sidebar {
-        background: rgba(12, 30, 66, 0.6); /* 半透明深藍 */
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
-        transition: transform 0.3s ease-in-out;
-    }
-    .nav-link {
-        position: relative;
-        transition: all 0.3s ease;
-        color: #e2e8f0; /* 稍微調亮文字顏色以確保對比度 */
-    }
-    .nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #ffffff;
-        transform: translateX(5px);
-    }
-    .nav-link.active {
-        background-color: #4f46e5;
-        color: white;
-        font-weight: 600;
-        box-shadow: 3px 0 15px -3px rgba(79, 70, 229, 0.5);
-    }
+        /* Sidebar styling */
+        .sidebar {
+            background: linear-gradient(180deg, #1e3a8a 0%, #0c1e42 100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+            color: #cbd5e1;
+        }
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+        .nav-link.active {
+            background-color: #4f46e5;
+            color: white;
+            font-weight: 600;
+            box-shadow: 3px 0 15px -3px rgba(79, 70, 229, 0.5);
+        }
 
-    /* Content section animation */
-    .content-section { display: none; animation: fadeIn 0.6s ease-in-out; }
-    .content-section.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-    
-    /* 【步驟三】改造卡片 */
-    .content-card, .toc-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        background: rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+        /* Content section animation */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Card hover effect */
+        .content-card, .toc-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .content-card:hover, .toc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        
+        
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        #search-results-container {
+    display: none; /* 預設情況下，這個視窗是隱藏的 */
+}
+#search-results-container.visible {
+    display: flex; /* 當 JavaScript 幫它加上 'visible' 這個 class 後，它就會以 flex 佈局顯示出來 */
+    animation: fadeIn 0.3s ease-out; /* 套用您已經寫好的 fadeIn 動畫效果 */
+}
+        .search-result-item {
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer; /* 當滑鼠移上去時，顯示為可點擊的手指圖案 */
+    transition: background-color 0.2s ease; /* 讓背景色變化有平滑的過渡效果 */
+}
+.search-result-item:hover {
+    background-color: #f1f5f9; /* 滑鼠懸停時，背景變為淺灰色，提供視覺回饋 */
+}
+        .search-result-item .chapter-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4f46e5; /* 靛藍色，和您的主題色一致 */
+    margin-bottom: 4px;
+}
+.search-result-item .match-text {
+    color: #475569; /* 深灰色，用於顯示內文 */
+    font-size: 0.95rem;
+}
+        .search-result-item mark {
+    background-color: #fef08a; /* 亮黃色背景 */
+    color: #713f12; /* 深黃褐色文字 */
+    padding: 2px 0;
+    border-radius: 3px;
+    font-weight: 600;
+}
+        .content-highlight {
+    animation: highlight-fade 2s ease-in-out; /* 套用下方定義的動畫，持續2秒 */
+    box-shadow: 0 0 0 3px rgba(253, 224, 71, 0.7); /* 一個黃色的外框陰影，像光暈 */
+    border-radius: 8px; /* 讓光暈也是圓角的 */
+}
+@keyframes highlight-fade {
+    from {
+        box-shadow: 0 0 0 3px rgba(253, 224, 71, 0.7); /* 動畫開始時的狀態 */
     }
-    .content-card:hover, .toc-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.15);
+    to {
+        box-shadow: 0 0 0 0px rgba(253, 224, 71, 0); /* 動畫結束時，光暈完全消失 */
     }
-    
-    /* 其他樣式保持不變... */
-    @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
-    /* 【步驟四】改造搜尋彈窗 */
-    #search-results-container {
-        display: none;
-        background: rgba(240, 244, 248, 0.7);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
-    }
-    #search-results-container.visible { display: flex; animation: fadeIn 0.3s ease-out; }
-    .search-result-item { padding: 12px; border-radius: 8px; cursor: pointer; transition: background-color 0.2s ease; }
-    .search-result-item:hover { background-color: rgba(255, 255, 255, 0.5); /* 調整 hover 顏色 */ }
-    .search-result-item .chapter-title { font-size: 0.8rem; font-weight: 600; color: #4f46e5; margin-bottom: 4px; }
-    .search-result-item .match-text { color: #334155; /* 稍微加深文字顏色 */ font-size: 0.95rem; }
-    .search-result-item mark { background-color: #fef08a; color: #713f12; padding: 2px 0; border-radius: 3px; font-weight: 600; }
-    .content-highlight { animation: highlight-fade 2s ease-in-out; box-shadow: 0 0 0 3px rgba(253, 224, 71, 0.7); border-radius: 8px; }
-    @keyframes highlight-fade { from { box-shadow: 0 0 0 3px rgba(253, 224, 71, 0.7); } to { box-shadow: 0 0 0 0px rgba(253, 224, 71, 0); } }
-    #search-results-container.toc-search-mode { left: 50%; transform: translateX(-50%); top: 230px; }
-    .watermark { position: fixed; bottom: 30px; right: 30px; font-size: 18px; font-weight: 700; color: rgba(255, 255, 255, 0.3); /* 讓浮水印變亮色 */ pointer-events: none; z-index: 9999; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-    .full-page-watermark-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9998; pointer-events: none; opacity: 0.5; }
-    .highlight-update { background-color: #fffbeb; }
-</style>
+}
+        #search-results-container.toc-search-mode {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 230px; /* 調整彈窗與搜尋框的距離 */
+}
+        .watermark {
+    position: fixed; /* 固定在畫面上，不隨滾動移動 */
+    bottom: 30px; /* 距離底部 30px */
+    right: 30px; /* 距離右側 30px */
+    font-size: 18px; /* 字體大小 */
+    font-weight: 700; /* 字體粗細 */
+    color: rgba(0, 0, 0, 0.15); /* 半透明的深灰色 */
+    pointer-events: none; /* 讓滑鼠可以穿透浮水印，點擊到底下內容 */
+    z-index: 9999; /* 確保在最上層 */
+    -webkit-user-select: none; /* 讓文字無法被選取 */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+        .full-page-watermark-bg {
+    position: fixed; /* 固定在畫面上 */
+    top: 0;
+    left: 0;
+    width: 100vw; /* 寬度佔滿整個可視螢幕 */
+    height: 100vh; /* 高度佔滿整個可視螢幕 */
+    z-index: 9998; /* 讓它在內容之上，但在右下角浮水印之下 */
+    pointer-events: none; /* 讓滑鼠可以穿透它，點擊到底下內容 */
+    opacity: 0.5; /* 讓它更淡，不影響閱讀 */
+}
+        .highlight-update {
+    background-color: #fffbeb; /* amber-50 */
+}
+    </style>
 </head>
 <body class="bg-slate-100">
 
