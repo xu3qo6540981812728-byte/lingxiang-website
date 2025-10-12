@@ -170,53 +170,6 @@
         .highlight-update {
     background-color: #fffbeb; /* amber-50 */
 }
-        /* 新的目錄頁面佈局 */
-#table-of-contents {
-    background-color: #f0f4f8; /* 確保背景色一致 */
-}
-
-/* 章節列表項目樣式 */
-.toc-list-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    border-radius: 8px;
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    text-decoration: none; /* 移除 a 標籤底線 */
-    color: #334155; /* slate-700 */
-}
-
-.toc-list-item:hover {
-    background-color: #f1f5f9; /* slate-100 */
-    transform: translateX(5px);
-}
-
-.toc-list-item .chapter-number {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #4f46e5; /* indigo-600 */
-    margin-right: 16px;
-    flex-shrink: 0; /* 防止數字被壓縮 */
-    width: 2rem; /* 固定寬度讓排版對齊 */
-    text-align: center;
-}
-
-.toc-list-item .chapter-title {
-    font-size: 1.05rem;
-    font-weight: 500;
-    flex-grow: 1; /* 讓標題佔滿剩餘空間 */
-}
-
-.toc-list-item .chapter-icon {
-    margin-left: 16px;
-    color: #94a3b8; /* slate-400 */
-    transition: color 0.2s ease;
-}
-
-.toc-list-item:hover .chapter-icon {
-    color: #4f46e5; /* indigo-600 */
-}
     </style>
 </head>
 <body class="bg-slate-100">
@@ -229,29 +182,27 @@
 
         <!-- Table of Contents View -->
         <div id="table-of-contents">
-            <div class="min-h-screen p-6 md:p-10 flex flex-col justify-center">
-    <button id="logout-button-toc" class="absolute top-6 right-6 inline-flex items-center justify-center py-2 px-4 rounded-lg bg-red-600 text-white hover:bg-red-700 transition duration-200 shadow-lg z-10 md:px-6">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:mr-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path>
-        </svg>
-        <span class="hidden md:inline">登出系統</span>
-    </button>
-    
-    <div class="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
-        <div class="text-center md:text-left">
-            <h1 class="text-5xl md:text-6xl font-bold text-slate-800">房仲菁英班</h1>
-            <p class="text-slate-500 mt-4 text-xl">線上課程總覽</p>
-            <p class="text-slate-600 mt-8 text-base leading-relaxed hidden md:block">
-                本課程系統化地涵蓋了從市場歷史、產權知識到開發、銷售與議價的完整流程。請點擊右方列表開始您的學習之旅，將理論內化為專業本能。
-            </p>
-        </div>
+            <div class="p-6 md:p-10">
+                
+                <div class="relative flex justify-center items-center mb-10 md:mb-12">
+                    
+                    <div class="text-center">
+                        <h1 class="text-4xl md:text-5xl font-bold text-slate-800">房仲菁英班</h1>
+                        <p class="text-slate-500 mt-3 text-lg">線上課程大綱</p>
+                    </div>
 
-        <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-2xl">
-            <div id="toc-chapter-list" class="space-y-2">
+                    <button id="logout-button-toc" class="absolute top-1/2 -translate-y-1/2 right-0 inline-flex items-center justify-center py-2 px-4 rounded-lg bg-red-600 text-white hover:bg-red-700 transition duration-200 shadow-lg z-10 md:px-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="hidden md:inline">登出系統</span>
+                    </button>
+                    
                 </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    </div>
+            </div>
         </div>
-    </div>
-</div>
 
         <!-- Chapter Detail View -->
         <div id="chapter-view" class="relative min-h-screen md:flex" style="display: none;">
@@ -2004,16 +1955,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================
     const loggedInUser = sessionStorage.getItem('loggedInUser');
     
-    // 為了方便測試，暫時註解掉跳轉，您可以稍後取消註解
-    // if (!loggedInUser) {
-    //     window.location.href = '/index.html';
-    //     return; 
-    // }
+    if (!loggedInUser) {
+        window.location.href = '/index.html';
+        return; 
+    }
     
     function createWatermark(username) {
         const watermark = document.createElement('div');
         watermark.className = 'watermark';
-        watermark.textContent = `使用者帳號 - ${username || '測試用戶'}`;
+        watermark.textContent = `使用者帳號 - ${username}`;
         document.body.appendChild(watermark);
     }
     
@@ -2025,7 +1975,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <defs>
                     <pattern id="pattern-watermark" x="0" y="0" width="300" height="300" patternUnits="userSpaceOnUse">
                         <text x="150" y="150" font-family="Arial, sans-serif" font-size="50" fill="rgba(0,0,0,0.08)" text-anchor="middle" dominant-baseline="middle" transform="rotate(-30, 150, 150)">
-                            ${username || '測試用戶'}
+                            ${username}
                         </text>
                     </pattern>
                 </defs>
@@ -2061,6 +2011,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const appWrapper = document.getElementById('app-wrapper');
+    const tocContainer = document.querySelector('#table-of-contents .grid');
     const chapterView = document.getElementById('chapter-view');
     const mainContentArea = chapterView.querySelector('main');
     const chapterTemplate = document.getElementById('chapter-content-template');
@@ -2073,6 +2024,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsHeader = document.getElementById('search-results-header');
     const resultsList = document.getElementById('search-results-list');
     
+    // 【新加入】獲取懸浮按鈕的 DOM 元素
     const prevChapterBtn = document.getElementById('prev-chapter-btn');
     const nextChapterBtn = document.getElementById('next-chapter-btn');
 
@@ -2084,34 +2036,27 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('table-of-contents').style.display = 'block';
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
-        prevChapterBtn.classList.add('hidden');
+        // 【新加入】在目錄頁時，隱藏懸浮按鈕
+       prevChapterBtn.classList.add('hidden');
         nextChapterBtn.classList.add('hidden');
     }
 
     function showChapterView(chapterId) {
         document.getElementById('table-of-contents').style.display = 'none';
         chapterView.style.display = 'flex';
-        const navLink = sidebarNav.querySelector(`[data-chapter-id="${chapterId}"]`);
-        if (navLink) {
-            showContent(chapterId, navLink);
-        }
+        showContent(chapterId, sidebarNav.querySelector(`[data-chapter-id="${chapterId}"]`));
     }
 
     function showContent(sectionId, element) {
         mainContentArea.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
         const newSection = mainContentArea.querySelector(`#${sectionId}`);
-        if (newSection) {
-            newSection.classList.add('active');
-        }
+        newSection.classList.add('active');
         
         sidebarNav.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-        if (element) {
-            element.classList.add('active');
-            const chapterIndex = chapters.findIndex(c => c.id === sectionId);
-            mobileHeaderTitle.textContent = element.textContent.trim().substring(String(chapterIndex).length).trim();
-        }
+        element.classList.add('active');
 
         mainContentArea.scrollTop = 0;
+        mobileHeaderTitle.textContent = element.textContent.trim().substring(2);
 
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('mobile-overlay');
@@ -2120,106 +2065,96 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.style.display = 'none';
         }
         
+        // 【新加入】更新懸浮按鈕狀態的核心邏輯
         updateFloatingButtons(sectionId);
     }
     
+    // 【新加入】負責更新懸浮按鈕的函式
     function updateFloatingButtons(currentChapterId) {
         const currentIndex = chapters.findIndex(chapter => chapter.id === currentChapterId);
 
+        // --- 處理「上一章」按鈕 ---
         if (currentIndex > 0) {
             const prevChapterId = chapters[currentIndex - 1].id;
             prevChapterBtn.classList.remove('hidden');
+            // 每次都重新綁定點擊事件，確保跳轉到正確的章節
             prevChapterBtn.onclick = () => {
-                showChapterView(prevChapterId);
+                const prevNavLink = sidebarNav.querySelector(`[data-chapter-id="${prevChapterId}"]`);
+                showContent(prevChapterId, prevNavLink);
             };
         } else {
+            // 如果是第一章，就隱藏按鈕
             prevChapterBtn.classList.add('hidden');
         }
 
+        // --- 處理「下一章」按鈕 ---
         if (currentIndex < chapters.length - 1) {
             const nextChapterId = chapters[currentIndex + 1].id;
             nextChapterBtn.classList.remove('hidden');
             nextChapterBtn.onclick = () => {
-                showChapterView(nextChapterId);
+                const nextNavLink = sidebarNav.querySelector(`[data-chapter-id="${nextChapterId}"]`);
+                showContent(nextChapterId, nextNavLink);
             };
         } else {
+            // 如果是最後一章，就隱藏按鈕
             nextChapterBtn.classList.add('hidden');
         }
     }
 
+
     appWrapper.style.display = 'block'; 
     
-    function renderTOCList(chapterList) {
-        const listContainer = document.getElementById('toc-chapter-list');
-        if (!listContainer) return;
-
-        listContainer.innerHTML = '';
+    function renderTOCCards(chapterList) {
+        tocContainer.innerHTML = '';
         chapterList.forEach((chapter, index) => {
-            const tocItem = document.createElement('a');
-            tocItem.href = `#${chapter.id}`;
-            tocItem.className = 'toc-list-item';
-            tocItem.onclick = (e) => { e.preventDefault(); showChapterView(chapter.id); };
-            
-            tocItem.innerHTML = `
-                <span class="chapter-number">${index < 10 ? '0' + index : index}</span>
-                <span class="chapter-title">${chapter.title}</span>
-                <svg class="chapter-icon h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+            const tocCard = document.createElement('a');
+            tocCard.href = `#${chapter.id}`;
+            tocCard.className = 'toc-card bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center';
+            tocCard.onclick = (e) => { e.preventDefault(); showChapterView(chapter.id); };
+            tocCard.innerHTML = `
+                <div class="bg-indigo-100 text-indigo-600 rounded-full h-12 w-12 flex items-center justify-center font-bold text-xl mb-4">${index}</div>
+                <h3 class="text-xl font-semibold text-slate-800 mb-2">${chapter.title}</h3>
+                <p class="text-slate-500 text-sm">${chapter.description}</p>
             `;
-            listContainer.appendChild(tocItem);
+            tocContainer.appendChild(tocCard);
         });
     }
 
-    // 渲染目錄
-    renderTOCList(chapters);
+    renderTOCCards(chapters);
 
-    // 【★關鍵修正★】載入所有章節內容與側邊欄，並設定好初始狀態
     chapters.forEach((chapter, index) => {
-        // 1. 建立側邊欄連結
         const navLink = document.createElement('a');
         navLink.href = `#${chapter.id}`;
-        // 【修正一】如果這是第一個連結 (index === 0)，就自動加上 'active' class
         navLink.className = `nav-link flex items-center py-3 px-4 rounded-lg transition duration-200 ${index === 0 ? 'active' : ''}`;
         navLink.dataset.chapterId = chapter.id;
         navLink.onclick = (e) => { e.preventDefault(); showContent(chapter.id, navLink); };
         navLink.innerHTML = `<span class="w-6 text-center mr-3">${index}</span> ${chapter.title}`;
         sidebarNav.appendChild(navLink);
 
-        // 2. 從 template 複製內容並加入到主顯示區
         const content = chapterTemplate.content.querySelector('#' + chapter.id).cloneNode(true);
-        // 【修正二】如果這是第一個內容區塊 (index === 0)，就自動加上 'active' class 讓它顯示出來
-        if (index === 0) {
-            content.classList.add('active');
-        }
+        if (index === 0) content.classList.add('active');
         mainContentArea.appendChild(content);
     });
     chapterTemplate.remove();
-    
-    // 初始化搜尋索引
     createSearchIndex();
 
-    // 進度條相關程式碼...
+    // 省略進度條 (Progress Tracker) 和搜尋功能的程式碼...
     const progressItems = [ { name: '台灣房市歷史' }, { name: '基本作業模式', type: 'header' }, { name: '認識房子優缺點（團看）' }, { name: '商圈認識（社區行情、標的地、大型建設）' }, { name: '認識謄本' }, { name: '代書流程' }, { name: '房地產稅務（新舊制、重構退稅、基本運算邏輯）' }, { name: '銀行貸款(買方自備款)' }, { name: '電話常見五問總結' }, { name: '練習打電話' }, { name: '契據' }, { name: '取得營業員證照後', type: 'header' }, { name: '名片、派報DM(工具）製作' }, { name: '公司物件了解（廣告、帶看前基本詢問開發）' }, { name: '系統化作業（募集表、廣告表）' }, { name: '觀摩', counts: [ '商圈經營', '銷售帶看', '開發跑線', '收斡旋', '簽委託'] }, { name: '陪同自行作業', counts: ['商圈經營', '銷售帶看', '開發跑線', '收斡旋', '簽委託'] }, { name: '日起有功（排行程）' }, { name: '開發進案', type: 'header' }, { name: '後臺系統操作' }, { name: '如何拍照' }, { name: '注意事項' }, { name: '促銷' }, { name: '回報' }, { name: '議價' }, { name: '銷售收斡', type: 'header' }, { name: '帶看前準備' }, { name: '帶看後探索' }, { name: '斡旋失效三要素' }, { name: '調價' }, { name: '業務技巧', type: 'header' }, { name: '三個談判思路方式' }, { name: '兩種敘述法(表達能力訓練)' }, { name: '實戰模擬', type: 'header' }, { name: '委託斡旋洽談' } ];
     const progressTableBody = document.getElementById('progress-table');
     const resetProgressButton = document.getElementById('reset-progress');
     let progressData = JSON.parse(localStorage.getItem('progressData')) || {};
-    function renderProgressTable() { if (!progressTableBody) return; progressTableBody.innerHTML = ''; progressItems.forEach((item, index) => { if (item.type === 'header') { const headerDiv = document.createElement('div'); headerDiv.innerHTML = `<div class="py-3 px-4 bg-slate-200 text-slate-700 font-bold text-base md:rounded-none">${item.name}</div>`; progressTableBody.appendChild(headerDiv); return; } const isChecked = progressData[index]?.checked || false; const itemWrapper = document.createElement('div'); itemWrapper.className = 'progress-item grid grid-cols-1 md:grid-cols-[1fr_100px_2fr] gap-x-4 border-t border-slate-200 px-4 py-4 hover:bg-slate-50'; let countInputsHTML = ''; if (item.counts) { const inputs = item.counts.map(countName => { const value = progressData[index]?.counts?.[countName] || ''; return ` <div class="flex items-center space-x-2"> <label class="text-slate-600 w-24 text-right flex-shrink-0">${countName}:</label> <input type="text" value="${value}" data-index="${index}" data-count-name="${countName}" class="count-input w-full text-center border rounded py-1 px-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition" placeholder="請輸入次數"> </div>`; }).join(''); countInputsHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 md:mt-0">${inputs}</div>`; } itemWrapper.innerHTML = ` <div class="flex items-center text-slate-700 font-medium"> ${item.name} </div> <div class="flex items-center justify-start md:justify-center mt-2 md:mt-0"> <label class="flex items-center space-x-2 md:space-x-0 cursor-pointer"> <span class="md:hidden text-slate-500">完成狀態:</span> <input type="checkbox" data-index="${index}" class="h-6 w-6 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" ${isChecked ? 'checked' : ''}> </label> </div> <div class="mt-2 md:mt-0"> ${countInputsHTML ? `<div class="md:hidden text-slate-500 mb-2">次數紀錄:</div>` : ''} ${countInputsHTML} </div> `; progressTableBody.appendChild(itemWrapper); }); }
+    function renderProgressTable() { progressTableBody.innerHTML = ''; progressItems.forEach((item, index) => { if (item.type === 'header') { const headerDiv = document.createElement('div'); headerDiv.innerHTML = `<div class="py-3 px-4 bg-slate-200 text-slate-700 font-bold text-base md:rounded-none">${item.name}</div>`; progressTableBody.appendChild(headerDiv); return; } const isChecked = progressData[index]?.checked || false; const itemWrapper = document.createElement('div'); itemWrapper.className = 'progress-item grid grid-cols-1 md:grid-cols-[1fr_100px_2fr] gap-x-4 border-t border-slate-200 px-4 py-4 hover:bg-slate-50'; let countInputsHTML = ''; if (item.counts) { const inputs = item.counts.map(countName => { const value = progressData[index]?.counts?.[countName] || ''; return ` <div class="flex items-center space-x-2"> <label class="text-slate-600 w-24 text-right flex-shrink-0">${countName}:</label> <input type="text" value="${value}" data-index="${index}" data-count-name="${countName}" class="count-input w-full text-center border rounded py-1 px-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition" placeholder="請輸入次數"> </div>`; }).join(''); countInputsHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 md:mt-0">${inputs}</div>`; } itemWrapper.innerHTML = ` <div class="flex items-center text-slate-700 font-medium"> ${item.name} </div> <div class="flex items-center justify-start md:justify-center mt-2 md:mt-0"> <label class="flex items-center space-x-2 md:space-x-0 cursor-pointer"> <span class="md:hidden text-slate-500">完成狀態:</span> <input type="checkbox" data-index="${index}" class="h-6 w-6 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" ${isChecked ? 'checked' : ''}> </label> </div> <div class="mt-2 md:mt-0"> ${countInputsHTML ? `<div class="md:hidden text-slate-500 mb-2">次數紀錄:</div>` : ''} ${countInputsHTML} </div> `; progressTableBody.appendChild(itemWrapper); }); }
     function saveProgress() { localStorage.setItem('progressData', JSON.stringify(progressData)); }
-    if (progressTableBody) {
-        progressTableBody.addEventListener('input', (e) => { const index = e.target.dataset.index; if (index === undefined) return; if (!progressData[index]) { progressData[index] = {}; } if (e.target.type === 'checkbox') { progressData[index].checked = e.target.checked; } else if (e.target.classList.contains('count-input')) { const countName = e.target.dataset.countName; if (!progressData[index].counts) { progressData[index].counts = {}; } progressData[index].counts[countName] = e.target.value; } saveProgress(); });
-        resetProgressButton.addEventListener('click', () => { if (confirm('您確定要重設所有進度嗎？此操作無法復原。')) { progressData = {}; saveProgress(); renderProgressTable(); } });
-        renderProgressTable();
-    }
+    progressTableBody.addEventListener('input', (e) => { const index = e.target.dataset.index; if (index === undefined) return; if (!progressData[index]) { progressData[index] = {}; } if (e.target.type === 'checkbox') { progressData[index].checked = e.target.checked; } else if (e.target.classList.contains('count-input')) { const countName = e.target.dataset.countName; if (!progressData[index].counts) { progressData[index].counts = {}; } progressData[index].counts[countName] = e.target.value; } saveProgress(); });
+    resetProgressButton.addEventListener('click', () => { if (confirm('您確定要重設所有進度嗎？此操作無法復原。')) { progressData = {}; saveProgress(); renderProgressTable(); } });
+    renderProgressTable();
     
-    // 搜尋功能相關程式碼...
     function createSearchIndex() { searchableData = []; const contentElements = mainContentArea.querySelectorAll('h2, h3, h4, p, li, td'); contentElements.forEach(el => { const text = el.textContent.trim(); if (text) { const chapterSection = el.closest('.content-section'); if (chapterSection) { searchableData.push({ text: text, chapterId: chapterSection.id, element: el }); } } }); }
     function displayResults(matches, query) { resultsList.innerHTML = ''; if (matches.length === 0) { resultsHeader.textContent = `找不到關於「${query}」的結果`; return; } resultsHeader.textContent = `找到 ${matches.length} 筆關於「${query}」的結果`; matches.forEach(match => { const li = document.createElement('li'); li.className = 'search-result-item'; li.dataset.chapterId = match.chapterId; li.dataset.text = match.text; const chapterTitle = chapters.find(c => c.id === match.chapterId)?.title || '未知章節'; const highlightedText = match.text.replace(new RegExp(query, 'gi'), (match) => `<mark>${match}</mark>`); li.innerHTML = ` <div class="chapter-title">${chapterTitle}</div> <div class="match-text">${highlightedText}</div> `; resultsList.appendChild(li); }); }
     searchInput.addEventListener('input', (e) => { const query = e.target.value.trim().toLowerCase(); if (query.length < 2) { resultsContainer.classList.remove('visible'); return; } const matches = searchableData.filter(item => item.text.toLowerCase().includes(query)); displayResults(matches, e.target.value.trim()); resultsContainer.classList.add('visible'); });
     resultsContainer.addEventListener('click', (e) => { const item = e.target.closest('.search-result-item'); if (!item) return; const { chapterId, text } = item.dataset; const targetData = searchableData.find(d => d.chapterId === chapterId && d.text === text); if (targetData) { if (currentHighlight) { currentHighlight.classList.remove('content-highlight'); } showChapterView(chapterId); targetData.element.scrollIntoView({ behavior: 'smooth', block: 'center' }); targetData.element.classList.add('content-highlight'); currentHighlight = targetData.element; setTimeout(() => { if (currentHighlight) { currentHighlight.classList.remove('content-highlight'); currentHighlight = null; } }, 2000); } resultsContainer.classList.remove('visible'); searchInput.value = ''; });
     document.addEventListener('click', (e) => { const isClickInsideSearch = searchInput.contains(e.target) || resultsContainer.contains(e.target); if (!isClickInsideSearch) { resultsContainer.classList.remove('visible'); } });
     
-    // 綁定返回按鈕與手機版選單事件
     backToTocDesktop.addEventListener('click', showTOC);
     backToTocMobile.addEventListener('click', showTOC);
     
@@ -2233,7 +2168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     menuButton.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
 
-    // 登出邏輯
+    // --- Logout Logic (支援側邊欄與目錄頁兩個按鈕) ---
     const logoutButtonSidebar = document.getElementById('logout-button');
     const logoutButtonTOC = document.getElementById('logout-button-toc');
     function performLogout() {
@@ -2247,17 +2182,12 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutButtonTOC.addEventListener('click', performLogout);
     }
 
-    // 初始顯示目錄頁
     showTOC();
 });
 </script>
 
 </body>
 </html>
-
-
-
-
 
 
 
