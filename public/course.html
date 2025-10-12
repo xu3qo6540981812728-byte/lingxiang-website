@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
@@ -165,6 +166,9 @@
     z-index: 9998; /* 讓它在內容之上，但在右下角浮水印之下 */
     pointer-events: none; /* 讓滑鼠可以穿透它，點擊到底下內容 */
     opacity: 0.5; /* 讓它更淡，不影響閱讀 */
+}
+        .highlight-update {
+    background-color: #fffbeb; /* amber-50 */
 }
     </style>
 </head>
@@ -533,7 +537,183 @@
                 <h3 class="text-2xl font-semibold text-slate-700 mb-4">稅務總覽</h3>
                 <img src="images/image_57912c.jpg" alt="房地產稅務分類圖" class="w-full max-w-lg mx-auto rounded-lg shadow-md border">
             </div>
+<div class="bg-white p-8 rounded-xl shadow-lg content-card">
+    <h3 class="text-2xl font-bold text-slate-700 mb-6 flex items-center"><i class="fas fa-home mr-3 text-blue-600"></i>PART 1：房屋稅</h3>
+    <p class="mb-6 text-slate-600">房屋稅是針對「房屋本身」價值的稅。可以把它想像成是**房子**每年的持有成本。</p>
 
+    <h4 class="text-xl font-semibold mb-4 text-indigo-600">一張圖看懂如何計算</h4>
+    <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 text-center mb-6">
+        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <p class="font-bold text-blue-800">房屋課稅現值</p>
+            <p class="text-sm text-gray-600">(由稅捐機關評定)</p>
+        </div>
+        <div class="text-2xl font-bold text-gray-500">×</div>
+        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+            <p class="font-bold text-blue-800">稅率</p>
+        </div>
+        <div class="text-2xl font-bold text-gray-500">=</div>
+        <div class="bg-blue-100 p-4 rounded-lg border border-blue-300">
+            <p class="font-bold text-blue-900">應繳房屋稅</p>
+        </div>
+    </div>
+    <p class="text-sm bg-slate-50 p-3 rounded-md mb-6 text-slate-600">※ <strong>房屋課稅現值</strong>：這不是您的買房市價，而是政府根據房屋的建材、地點、大小等因素評估出來的價值。</p>
+
+    <h4 class="text-xl font-semibold mb-4 text-indigo-600">稅率有多少？(含囤房稅2.0)</h4>
+    <p class="mb-4 text-slate-600">稅率會根據您的「使用方式」而不同，自 2025 年 5 月起將適用新制：</p>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+            <thead class="bg-slate-200">
+                <tr>
+                    <th class="p-3 text-left font-bold text-gray-700">使用類型</th>
+                    <th class="p-3 text-left font-bold text-gray-700">稅率</th>
+                    <th class="p-3 text-left font-bold text-gray-700">說明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b bg-green-50">
+                    <td class="p-3 font-medium text-green-800"><strong>自住用</strong></td>
+                    <td class="p-3 font-medium text-green-800"><strong>1.2%</strong> (特定條件下可降至1%)</td>
+                    <td class="p-3 text-sm text-green-800">本人、配偶或直系親屬實際居住，且全國合計<strong>不超過3戶</strong>。</td>
+                </tr>
+                <tr class="border-b highlight-update">
+                    <td class="p-3 font-medium text-amber-800"><strong>非自住用<br>(囤房稅2.0)</strong></td>
+                    <td class="p-3 font-medium text-amber-800"><strong>2% ~ 4.8%</strong></td>
+                    <td class="p-3 text-sm text-amber-800">俗稱「囤房稅2.0」，依全國持有戶數採差別稅率，自 <strong>2025 年 5 月</strong>起適用。</td>
+                </tr>
+                <tr>
+                    <td class="p-3">營業用</td>
+                    <td class="p-3">3% ~ 5%</td>
+                    <td class="p-3 text-sm">公司、商店等使用。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-r-lg">
+        <p class="font-bold">關鍵：自住用的稅率最優惠！</p>
+    </div>
+</div>
+
+<div class="bg-white p-8 rounded-xl shadow-lg content-card">
+    <h3 class="text-2xl font-bold text-slate-700 mb-6 flex items-center"><i class="fas fa-tree mr-3 text-green-600"></i>PART 2：地價稅</h3>
+    <p class="mb-6 text-slate-600">地價稅是針對「土地本身」價值的稅。可以理解為持有<strong>土地</strong>的成本。</p>
+    
+    <h4 class="text-xl font-semibold mb-4 text-indigo-600">一張圖看懂如何計算</h4>
+     <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 text-center mb-6">
+        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+            <p class="font-bold text-green-800">課稅地價</p>
+            <p class="text-sm text-gray-600">(申報地價 × 面積)</p>
+        </div>
+        <div class="text-2xl font-bold text-gray-500">×</div>
+        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+            <p class="font-bold text-green-800">稅率</p>
+        </div>
+        <div class="text-2xl font-bold text-gray-500">=</div>
+        <div class="bg-green-100 p-4 rounded-lg border border-green-300">
+            <p class="font-bold text-green-900">應繳地價稅</p>
+        </div>
+    </div>
+    <p class="text-sm bg-slate-50 p-3 rounded-md mb-6 text-slate-600">※ <strong>課稅地價</strong>：政府會公告一個「公告地價」，您可以參考它來「申報地價」，稅捐機關會根據您的申報地價來計算。</p>
+
+    <h4 class="text-xl font-semibold mb-4 text-indigo-600">自用住宅優惠稅率</h4>
+    <p class="mb-4 text-slate-600">地價稅的一般稅率是累進的 (10‰ ~ 55‰)，稅率較高。但只要符合條件，就能申請超優惠的「自用住宅稅率」！</p>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+            <thead class="bg-slate-200">
+                <tr>
+                    <th class="p-3 text-left font-bold text-gray-700">項目</th>
+                    <th class="p-3 text-left font-bold text-gray-700">稅率</th>
+                    <th class="p-3 text-left font-bold text-gray-700">條件</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b bg-yellow-50">
+                    <td class="p-3 font-medium text-yellow-800"><strong>自用住宅</strong></td>
+                    <td class="p-3 font-medium text-yellow-800"><strong>2‰ (千分之二)</strong></td>
+                    <td class="p-3 text-sm text-yellow-800">
+                        <ol class="list-decimal list-inside space-y-1">
+                            <li>土地上有自己、配偶或直系親屬的戶籍。</li>
+                            <li>房屋沒有出租或營業。</li>
+                            <li>土地所有權人、配偶及未成年子女，全國限<strong>一處</strong>適用。</li>
+                            <li>都市土地面積不超過300平方公尺(約90.75坪)。</li>
+                            <li>需在<strong>每年9月22日前</strong>提出申請，當年度才能適用。</li>
+                        </ol>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="p-3">一般用地</td>
+                    <td class="p-3">10‰ ~ 55‰</td>
+                    <td class="p-3 text-sm">未申請或不符合自用住宅條件者。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-r-lg">
+        <p class="font-bold">關鍵：地價稅的自用優惠稅率省超多，但<span class="underline">一定要記得主動申請</span>！</p>
+    </div>
+</div>
+
+<div class="bg-white p-8 rounded-xl shadow-lg content-card">
+    <h3 class="text-2xl font-bold text-slate-700 mb-6 flex items-center"><i class="fas fa-balance-scale mr-3 text-purple-600"></i>PART 3：兩種稅，超級比一比！</h3>
+    <p class="mb-6 text-slate-600">用一個總表格，讓您快速看懂兩者的核心差異。</p>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+            <thead class="bg-slate-200">
+                <tr>
+                    <th class="p-3 text-left font-bold text-gray-700">項目</th>
+                    <th class="p-3 text-left font-bold text-gray-700">房屋稅 🏠</th>
+                    <th class="p-3 text-left font-bold text-gray-700">地價稅 🌳</th>
+                    <th class="p-3 text-left font-bold text-gray-700">備註</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <tr>
+                    <td class="p-3 font-semibold">課稅對象</td>
+                    <td class="p-3">房屋、建物</td>
+                    <td class="p-3">土地</td>
+                    <td class="p-3 text-sm text-gray-600">一個對房，一個對地。</td>
+                </tr>
+                <tr class="bg-gray-50">
+                    <td class="p-3 font-semibold">繳納時間</td>
+                    <td class="p-3 font-bold text-red-600">每年 5 月</td>
+                    <td class="p-3 font-bold text-red-600">每年 11 月</td>
+                    <td class="p-3 text-sm text-gray-600">上半年繳房，下半年繳地。</td>
+                </tr>
+                <tr>
+                    <td class="p-3 font-semibold">誰要繳？</td>
+                    <td class="p-3">房屋所有權人</td>
+                    <td class="p-3">土地所有權人</td>
+                    <td class="p-3"></td>
+                </tr>
+                <tr class="bg-gray-50">
+                    <td class="p-3 font-semibold">計算基礎</td>
+                    <td class="p-3">房屋課稅現值</td>
+                    <td class="p-3">申報地價</td>
+                    <td class="p-3 text-sm text-gray-600">皆由政府評估或公告。</td>
+                </tr>
+                 <tr>
+                    <td class="p-3 font-semibold">最優惠稅率</td>
+                    <td class="p-3 text-green-600 font-bold">1.2% (自住)</td>
+                    <td class="p-3 text-green-600 font-bold">2‰ (自用住宅)</td>
+                    <td class="p-3"></td>
+                </tr>
+                <tr class="bg-yellow-50">
+                    <td class="p-3 font-semibold">優惠申請</td>
+                    <td class="p-3"><strong>不需申請</strong>，系統會看戶籍狀況主動判斷。</td>
+                    <td class="p-3"><strong class="text-red-600">需要主動申請！</strong><br>(每年9/22前)</td>
+                    <td class="p-3 text-sm text-gray-600 font-bold">地價稅優惠一定要自己申請！</td>
+                </tr>
+                 <tr>
+                    <td class="p-3 font-semibold">優惠戶數</td>
+                    <td class="p-3">全國合計<strong>3戶</strong>以內</td>
+                    <td class="p-3">全國限<strong>1處</strong></td>
+                    <td class="p-3 text-sm text-gray-600">房屋稅比較寬鬆，地價稅較嚴格。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<hr class="my-8 border-slate-300">
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="bg-white p-8 rounded-xl shadow-lg content-card  ">
                     <h3 class="text-xl font-semibold text-slate-700 mb-4">買方應繳稅費</h3>
@@ -2008,6 +2188,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
