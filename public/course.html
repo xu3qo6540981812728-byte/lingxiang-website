@@ -2173,21 +2173,26 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTOCList(chapters);
 
     // 【★關鍵★】載入所有章節內容與側邊欄
-    chapters.forEach((chapter, index) => {
-        // 1. 建立側邊欄連結
-        const navLink = document.createElement('a');
-        navLink.href = `#${chapter.id}`;
-        navLink.className = `nav-link flex items-center py-3 px-4 rounded-lg transition duration-200`;
-        navLink.dataset.chapterId = chapter.id;
-        navLink.onclick = (e) => { e.preventDefault(); showContent(chapter.id, navLink); };
-        navLink.innerHTML = `<span class="w-6 text-center mr-3">${index}</span> ${chapter.title}`;
-        sidebarNav.appendChild(navLink);
+   chapters.forEach((chapter, index) => {
+    // 1. 建立側邊欄連結
+    const navLink = document.createElement('a');
+    navLink.href = `#${chapter.id}`;
+    // 【修正一】如果這是第一個連結 (index === 0)，就自動加上 'active' class
+    navLink.className = `nav-link flex items-center py-3 px-4 rounded-lg transition duration-200 ${index === 0 ? 'active' : ''}`;
+    navLink.dataset.chapterId = chapter.id;
+    navLink.onclick = (e) => { e.preventDefault(); showContent(chapter.id, navLink); };
+    navLink.innerHTML = `<span class="w-6 text-center mr-3">${index}</span> ${chapter.title}`;
+    sidebarNav.appendChild(navLink);
 
-        // 2. 從 template 複製內容並加入到主顯示區
-        const content = chapterTemplate.content.querySelector('#' + chapter.id).cloneNode(true);
-        mainContentArea.appendChild(content);
-    });
-    chapterTemplate.remove();
+    // 2. 從 template 複製內容並加入到主顯示區
+    const content = chapterTemplate.content.querySelector('#' + chapter.id).cloneNode(true);
+    // 【修正二】如果這是第一個內容區塊 (index === 0)，就自動加上 'active' class 讓它顯示出來
+    if (index === 0) {
+        content.classList.add('active');
+    }
+    mainContentArea.appendChild(content);
+});
+chapterTemplate.remove();
     
     // 初始化搜尋索引
     createSearchIndex();
@@ -2247,6 +2252,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
