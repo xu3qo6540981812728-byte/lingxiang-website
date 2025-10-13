@@ -2237,6 +2237,24 @@ document.addEventListener('DOMContentLoaded', () => {
             tocContainer.appendChild(tocCard);
         });
     }
+    function createSearchIndex() {
+        searchableData = [];
+        const contentElements = mainContentArea.querySelectorAll('h2, h3, h4, p, li, td');
+        contentElements.forEach(el => {
+            const text = el.textContent.trim();
+            if (text) {
+                const chapterSection = el.closest('.content-section');
+                if (chapterSection) {
+                    searchableData.push({
+                        text: text,
+                        chapterId: chapterSection.id,
+                        element: el
+                    });
+                }
+            }
+        });
+    }
+
 
     // ===== 初始化頁面 =====
     appWrapper.style.display = 'block'; 
@@ -2289,6 +2307,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
