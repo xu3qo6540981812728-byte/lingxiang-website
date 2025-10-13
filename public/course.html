@@ -2104,17 +2104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         audioPlayerContainer.classList.remove('expanded');
     });
 
-    let playerVisible = false;
-    toggleBtn.addEventListener('click', () => {
-        playerVisible = !playerVisible;
-        if (playerVisible) {
-            playerPanel.classList.remove('hidden');
-            playerPanel.classList.add('flex');
-        } else {
-            playerPanel.classList.remove('flex');
-            playerPanel.classList.add('hidden');
-        }
-    });
+
     
     // ===== 頁面主要 DOM 元素 =====
     const appWrapper = document.getElementById('app-wrapper');
@@ -2343,6 +2333,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
