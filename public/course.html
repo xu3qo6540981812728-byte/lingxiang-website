@@ -170,6 +170,39 @@
         .highlight-update {
     background-color: #fffbeb; /* amber-50 */
 }
+        .speed-btn {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #475569; /* slate-600 */
+            transition: all 0.2s ease;
+        }
+        .speed-btn:hover {
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .speed-btn.active-speed-btn {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+            font-weight: 600;
+        }
+        #progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #4f46e5;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        #progress-bar::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #4f46e5;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        /* ===== 新增的語音播放器 CSS 結束 ===== */
     </style>
 </head>
 <body class="bg-slate-100">
@@ -1947,9 +1980,150 @@
             </div>
         </div>
     </template>
-
+<div id="audio-player-container" class="fixed bottom-6 right-6 z-50 hidden items-center space-x-3 transition-all duration-300 ease-in-out">
+        <button id="toggle-audio-player-btn" class="flex items-center justify-center w-48 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full shadow-lg hover:scale-105 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
+            </svg>
+            <span class="font-semibold text-lg">語音教學</span>
+        </button>
+        <div id="audio-player-panel" class="bg-white p-4 rounded-xl shadow-2xl w-72 hidden flex-col space-y-3">
+            <audio id="chapter-audio" src="audio/chapter1_audio.mp3"></audio>
+            <div class="flex items-center justify-between">
+                <button id="play-pause-btn" class="p-2 rounded-full hover:bg-slate-100">
+                    <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-700" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+                    <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-700 hidden" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                </button>
+                <div id="current-time" class="text-sm text-slate-500">00:00 / 00:00</div>
+            </div>
+            <input type="range" id="progress-bar" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" value="0" min="0" max="100">
+            <div class="flex items-center justify-center space-x-2">
+                 <span class="text-sm font-medium text-slate-600">播放速度:</span>
+                 <button data-speed="1" class="speed-btn active-speed-btn">1.0x</button>
+                 <button data-speed="1.25" class="speed-btn">1.25x</button>
+                 <button data-speed="1.5" class="speed-btn">1.5x</button>
+                 <button data-speed="2" class="speed-btn">2.0x</button>
+            </div>
+        </div>
+    </div>
    <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // ===== 新增的語音播放器 JavaScript 開始 =====
+
+    const audioPlayerContainer = document.getElementById('audio-player-container');
+    const toggleBtn = document.getElementById('toggle-audio-player-btn');
+    const playerPanel = document.getElementById('audio-player-panel');
+    const audio = document.getElementById('chapter-audio');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    const progressBar = document.getElementById('progress-bar');
+    const timeDisplay = document.getElementById('current-time');
+    const speedBtns = document.querySelectorAll('.speed-btn');
+
+    // 格式化時間 (例如 65 秒 -> 01:05)
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // 當音訊載入完成後，更新總時間
+    audio.addEventListener('loadedmetadata', () => {
+        progressBar.max = audio.duration;
+        timeDisplay.textContent = `00:00 / ${formatTime(audio.duration)}`;
+    });
+
+    // 播放/暫停按鈕
+    playPauseBtn.addEventListener('click', () => {
+        if (audio.paused) {
+            audio.play();
+        } else {
+            audio.pause();
+        }
+    });
+
+    // 監聽播放狀態，更新圖示
+    audio.addEventListener('play', () => {
+        playIcon.classList.add('hidden');
+        pauseIcon.classList.remove('hidden');
+    });
+
+    audio.addEventListener('pause', () => {
+        playIcon.classList.remove('hidden');
+        pauseIcon.classList.add('hidden');
+    });
+
+    // 更新進度條和時間顯示
+    audio.addEventListener('timeupdate', () => {
+        progressBar.value = audio.currentTime;
+        timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+    });
+
+    // 拖動進度條
+    progressBar.addEventListener('input', () => {
+        audio.currentTime = progressBar.value;
+    });
+
+    // 速度切換按鈕
+    speedBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // 移除所有按鈕的啟用樣式
+            speedBtns.forEach(b => b.classList.remove('active-speed-btn'));
+            // 為當前點擊的按鈕添加啟用樣式
+            btn.classList.add('active-speed-btn');
+            // 設定播放速度
+            audio.playbackRate = parseFloat(btn.dataset.speed);
+        });
+    });
+
+    // 切換顯示播放面板
+    let playerVisible = false;
+    toggleBtn.addEventListener('click', () => {
+        playerVisible = !playerVisible;
+        if (playerVisible) {
+            playerPanel.classList.remove('hidden');
+            playerPanel.classList.add('flex');
+        } else {
+            playerPanel.classList.remove('flex');
+            playerPanel.classList.add('hidden');
+        }
+    });
+
+    // 在 showContent 函式中，加入控制懸浮按鈕顯示/隱藏的邏輯
+    function showContent(sectionId, element) {
+        mainContentArea.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+        const newSection = mainContentArea.querySelector(`#${sectionId}`);
+        newSection.classList.add('active');
+        
+        sidebarNav.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+        element.classList.add('active');
+
+        mainContentArea.scrollTop = 0;
+        mobileHeaderTitle.textContent = element.textContent.trim().substring(2);
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobile-overlay');
+        if (!sidebar.classList.contains('-translate-x-full')) {
+            sidebar.classList.add('-translate-x-full');
+            overlay.style.display = 'none';
+        }
+        
+        // 【重要】判斷當前是否為 "台灣房市歷史" 章節
+        if (sectionId === 'chapter1') {
+            audioPlayerContainer.classList.remove('hidden');
+            audioPlayerContainer.classList.add('flex');
+        } else {
+            audioPlayerContainer.classList.remove('flex');
+            audioPlayerContainer.classList.add('hidden');
+            // 切換到其他章節時，暫停並重置音訊
+            audio.pause();
+            audio.currentTime = 0;
+        }
+
+        updateFloatingButtons(sectionId);
+    }
+
     // ==========================================================
     // 步驟一：安全驗證與浮水印
     // ==========================================================
@@ -2188,6 +2362,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
