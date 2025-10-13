@@ -2300,7 +2300,110 @@ document.addEventListener('DOMContentLoaded', () => {
     chapterTemplate.remove();
     createSearchIndex();
     
-    // ... (此處省略進度條和搜尋功能的程式碼，它們與此問題無關) ...
+    // ===== 進度條 (Progress Tracker) 功能 =====
+    const progressItems = [
+        { name: '台灣房市歷史' },
+        { name: '基本作業模式', type: 'header' },
+        { name: '認識房子優缺點（團看）' },
+        { name: '商圈認識（社區行情、標的地、大型建設）' },
+        { name: '認識謄本' },
+        { name: '代書流程' },
+        { name: '房地產稅務（新舊制、重構退稅、基本運算邏輯）' },
+        { name: '銀行貸款(買方自備款)' },
+        { name: '電話常見五問總結' },
+        { name: '練習打電話' },
+        { name: '契據' },
+        { name: '取得營業員證照後', type: 'header' },
+        { name: '名片、派報DM(工具）製作' },
+        { name: '公司物件了解（廣告、帶看前基本詢問開發）' },
+        { name: '系統化作業（募集表、廣告表）' },
+        { name: '觀摩', counts: ['商圈經營', '銷售帶看', '開發跑線', '收斡旋', '簽委託'] },
+        { name: '陪同自行作業', counts: ['商圈經營', '銷售帶看', '開發跑線', '收斡旋', '簽委託'] },
+        { name: '日起有功（排行程）' },
+        { name: '開發進案', type: 'header' },
+        { name: '後臺系統操作' },
+        { name: '如何拍照' },
+        { name: '注意事項' },
+        { name: '促銷' },
+        { name: '回報' },
+        { name: '議價' },
+        { name: '銷售收斡', type: 'header' },
+        { name: '帶看前準備' },
+        { name: '帶看後探索' },
+        { name: '斡旋失效三要素' },
+        { name: '調價' },
+        { name: '業務技巧', type: 'header' },
+        { name: '三個談判思路方式' },
+        { name: '兩種敘述法(表達能力訓練)' },
+        { name: '實戰模擬', type: 'header' },
+        { name: '委託斡旋洽談' }
+    ];
+    const progressTableBody = document.getElementById('progress-table');
+    const resetProgressButton = document.getElementById('reset-progress');
+    let progressData = JSON.parse(localStorage.getItem('progressData')) || {};
+
+    function renderProgressTable() {
+        if (!progressTableBody) return; // 如果找不到表格元素，就直接返回
+        progressTableBody.innerHTML = '';
+        progressItems.forEach((item, index) => {
+            if (item.type === 'header') {
+                const headerDiv = document.createElement('div');
+                headerDiv.innerHTML = `<div class="py-3 px-4 bg-slate-200 text-slate-700 font-bold text-base md:rounded-none">${item.name}</div>`;
+                progressTableBody.appendChild(headerDiv);
+                return;
+            }
+            const isChecked = progressData[index]?.checked || false;
+            const itemWrapper = document.createElement('div');
+            itemWrapper.className = 'progress-item grid grid-cols-1 md:grid-cols-[1fr_100px_2fr] gap-x-4 border-t border-slate-200 px-4 py-4 hover:bg-slate-50';
+            let countInputsHTML = '';
+            if (item.counts) {
+                const inputs = item.counts.map(countName => {
+                    const value = progressData[index]?.counts?.[countName] || '';
+                    return ` <div class="flex items-center space-x-2"> <label class="text-slate-600 w-24 text-right flex-shrink-0">${countName}:</label> <input type="text" value="${value}" data-index="${index}" data-count-name="${countName}" class="count-input w-full text-center border rounded py-1 px-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition" placeholder="請輸入次數"> </div>`;
+                }).join('');
+                countInputsHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 md:mt-0">${inputs}</div>`;
+            }
+            itemWrapper.innerHTML = ` <div class="flex items-center text-slate-700 font-medium"> ${item.name} </div> <div class="flex items-center justify-start md:justify-center mt-2 md:mt-0"> <label class="flex items-center space-x-2 md:space-x-0 cursor-pointer"> <span class="md:hidden text-slate-500">完成狀態:</span> <input type="checkbox" data-index="${index}" class="h-6 w-6 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" ${isChecked ? 'checked' : ''}> </label> </div> <div class="mt-2 md:mt-0"> ${countInputsHTML ? `<div class="md:hidden text-slate-500 mb-2">次數紀錄:</div>` : ''} ${countInputsHTML} </div> `;
+            progressTableBody.appendChild(itemWrapper);
+        });
+    }
+
+    function saveProgress() {
+        localStorage.setItem('progressData', JSON.stringify(progressData));
+    }
+
+    // 事件監聽器需要確認元素存在
+    if (progressTableBody) {
+        progressTableBody.addEventListener('input', (e) => {
+            const index = e.target.dataset.index;
+            if (index === undefined) return;
+            if (!progressData[index]) {
+                progressData[index] = {};
+            }
+            if (e.target.type === 'checkbox') {
+                progressData[index].checked = e.target.checked;
+            } else if (e.target.classList.contains('count-input')) {
+                const countName = e.target.dataset.countName;
+                if (!progressData[index].counts) {
+                    progressData[index].counts = {};
+                }
+                progressData[index].counts[countName] = e.target.value;
+            }
+            saveProgress();
+        });
+    }
+
+    if (resetProgressButton) {
+        resetProgressButton.addEventListener('click', () => {
+            if (confirm('您確定要重設所有進度嗎？此操作無法復原。')) {
+                progressData = {};
+                saveProgress();
+                renderProgressTable();
+            }
+        });
+    }
+
+    renderProgressTable(); // 初始渲染表格
     
     // ===== 事件監聽器綁定 =====
     backToTocDesktop.addEventListener('click', showTOC);
@@ -2333,6 +2436,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
