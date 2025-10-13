@@ -2069,7 +2069,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const secs = Math.floor(seconds % 60);
         return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }
+// ===== 新增：重設播放器外觀的函式 =====
+function resetAudioPlayerUI() {
+    progressBar.value = 0; // 進度條歸零
+    timeDisplay.textContent = '00:00 / 00:00'; // 時間顯示歸零
+    playIcon.classList.remove('hidden'); // 顯示「播放」圖示
+    pauseIcon.classList.add('hidden'); // 隱藏「暫停」圖示
 
+    // (可選，但建議) 將播放速度也重設回 1x
+    speedBtns.forEach(btn => btn.classList.remove('active-speed-btn'));
+    const defaultSpeedBtn = document.querySelector('.speed-btn[data-speed="1"]');
+    if (defaultSpeedBtn) {
+        defaultSpeedBtn.classList.add('active-speed-btn');
+    }
+    audio.playbackRate = 1.0;
+}
     audio.addEventListener('loadedmetadata', () => {
         progressBar.max = audio.duration;
         timeDisplay.textContent = `00:00 / ${formatTime(audio.duration)}`;
@@ -2228,8 +2242,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 【關鍵修正】這是整合了語音播放器邏輯的 showContent 函式
-     function showContent(sectionId, element) {
+   // 【更新版】這是整合了「重設」邏輯的 showContent 函式
+function showContent(sectionId, element) {
     mainContentArea.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
     const newSection = mainContentArea.querySelector(`#${sectionId}`);
     if(newSection) newSection.classList.add('active');
@@ -2247,20 +2261,22 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.style.display = 'none';
     }
 
-    // ***** 全新的智慧判斷邏輯 *****
+    // ***** 全新的智慧判斷邏輯 (包含重設) *****
+
+    // 步驟 1: 立刻暫停任何正在播放的音樂，並重設播放器外觀
+    audio.pause();
+    resetAudioPlayerUI(); 
+
     const audioFile = audioMap[sectionId]; // 從語音地圖中尋找對應的檔案
 
     if (audioFile) { // 如果找到了語音檔
         const newAudioSrc = 'audio/' + audioFile;
-        if (audio.getAttribute('src') !== newAudioSrc) {
-            // 只有當來源不同時才重新載入，避免重複載入
-            audio.src = newAudioSrc;
-            audio.load(); // 命令播放器載入新檔案
-        }
+        // 步驟 2: 載入新的音訊來源
+        audio.src = newAudioSrc;
+        audio.load();
         audioPlayerContainer.style.display = 'flex'; // 顯示播放器按鈕
     } else { // 如果這個章節沒有語音檔
         audioPlayerContainer.style.display = 'none'; // 隱藏播放器按鈕
-        audio.pause(); // 暫停播放
         audio.src = ""; // 清空來源
     }
 
@@ -2485,6 +2501,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
