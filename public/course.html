@@ -2176,16 +2176,19 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
     // ===== 核心功能函式 =====
-    function showTOC() {
+   function showTOC() {
         chapterView.style.display = 'none';
         document.getElementById('table-of-contents').style.display = 'block';
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
         prevChapterBtn.classList.add('hidden');
         nextChapterBtn.classList.add('hidden');
+        
+        // 確保播放器在目錄頁是隱藏的
+        if (audioPlayerContainer) {
+            audioPlayerContainer.style.display = 'none';
+        }
     }
-if (audioPlayerContainer) audioPlayerContainer.style.display = 'none';
-}
     function showChapterView(chapterId) {
         document.getElementById('table-of-contents').style.display = 'none';
         chapterView.style.display = 'flex';
@@ -2442,6 +2445,7 @@ if (audioPlayerContainer) audioPlayerContainer.style.display = 'none';
 
 </body>
 </html>
+
 
 
 
