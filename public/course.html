@@ -204,15 +204,20 @@
         }
         /* ===== 新增的語音播放器 CSS 結束 ===== */
         #audio-player-container.expanded #audio-fab-btn {
-            opacity: 0;
-            transform: scale(0.75);
-            pointer-events: none; /* 隱藏時不可點擊 */
-        }
-        #audio-player-container.expanded #audio-controls-panel {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto; /* 顯示時可點擊 */
-        }
+    opacity: 0;
+    transform: scale(0.75);
+    pointer-events: none;
+}
+#audio-player-container.expanded #audio-controls-panel {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+/* 新增：讓展開的面板也在右上角 */
+#audio-player-container.expanded {
+    width: 18rem; /* 18rem = w-72 */
+    height: auto;
+}
     </style>
 </head>
 <body class="bg-slate-100">
@@ -1990,12 +1995,12 @@
             </div>
         </div>
     </template>
-<div id="audio-player-container" class="fixed bottom-6 right-6 z-50 transition-all duration-300 ease-in-out">
-    <button id="audio-fab-btn" class="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full shadow-lg hover:scale-105 transition-all duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
-    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
-</svg>
-    </button>
+<div id="audio-player-container" class="fixed top-6 right-6 z-50 transition-all duration-300 ease-in-out">
+    <button id="audio-fab-btn" class="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full shadow-lg hover:scale-105 transition-all duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+        ...
+    </svg>
+</button>
     
     <div id="audio-controls-panel" class="absolute bottom-0 right-0 bg-white p-4 rounded-xl shadow-2xl w-72 flex-col space-y-3 opacity-0 transform scale-95 pointer-events-none transition-all duration-300 ease-in-out origin-bottom-right">
         <audio id="chapter-audio" src="audio/chapter1-history.mp3" preload="metadata"></audio>
@@ -2179,7 +2184,8 @@ document.addEventListener('DOMContentLoaded', () => {
         prevChapterBtn.classList.add('hidden');
         nextChapterBtn.classList.add('hidden');
     }
-
+if (audioPlayerContainer) audioPlayerContainer.style.display = 'none';
+}
     function showChapterView(chapterId) {
         document.getElementById('table-of-contents').style.display = 'none';
         chapterView.style.display = 'flex';
@@ -2436,6 +2442,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
