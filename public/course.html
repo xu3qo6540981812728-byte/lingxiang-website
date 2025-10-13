@@ -203,6 +203,16 @@
             border-radius: 50%;
         }
         /* ===== 新增的語音播放器 CSS 結束 ===== */
+        #audio-player-container.expanded #audio-fab-btn {
+            opacity: 0;
+            transform: scale(0.75);
+            pointer-events: none; /* 隱藏時不可點擊 */
+        }
+        #audio-player-container.expanded #audio-controls-panel {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto; /* 顯示時可點擊 */
+        }
     </style>
 </head>
 <body class="bg-slate-100">
@@ -2328,20 +2338,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始顯示目錄
     showTOC();
 });
-        #audio-player-container.expanded #audio-fab-btn {
-            opacity: 0;
-            transform: scale(0.75);
-            pointer-events: none; /* 隱藏時不可點擊 */
-        }
-        #audio-player-container.expanded #audio-controls-panel {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto; /* 顯示時可點擊 */
-        }
+        
 </script>
 
 </body>
 </html>
+
 
 
 
