@@ -2020,7 +2020,7 @@
     <span id="audio-fab-label" class="mt-1 text-xs font-semibold text-slate-700 opacity-75 pointer-events-none">語音教學</span>
     
     <div id="audio-controls-panel" class=" bg-white p-4 rounded-xl shadow-2xl w-72 flex-col space-y-3 opacity-0 transform scale-95 pointer-events-none transition-all duration-300 ease-in-out origin-bottom-right">
-        <audio id="chapter-audio" src="audio/chapter1-history.mp3" preload="metadata"></audio>
+        <audio id="chapter-audio" preload="metadata"></audio>
 
         <div class="flex items-center justify-between">
             <h4 class="font-semibold text-slate-700">語音導覽</h4>
@@ -2191,6 +2191,19 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'chapter12', title: '總結：成為頂尖業務的思維', description: '整合所學，內化為專業本能' },
         { id: 'chapter13', title: '實用工具箱', description: '整合所有線上計算機' }
     ];
+    const audioMap = {
+    'chapter1': 'chapter1-history.mp3', // 台灣房市歷史
+    'chapter2': 'chapter2.mp3',         // 認識謄本
+    'chapter3': 'chapter3.mp3',         // 代書流程
+    'chapter4': 'chapter4.mp3',         // 房地產稅務
+    'chapter6': 'chapter6.mp3',         // 開發篇
+    'chapter7': 'chapter7.mp3',         // 回報與議價
+    'chapter8': 'chapter8.mp3',         // 銀行貸款
+    'chapter9': 'chapter9.mp3',         // 廣告法規
+    'chapter10': 'chapter10.mp3',        // 銷售篇
+    'chapter11': 'chapter11.mp3',        // 引導收斡
+    'chapter12': 'chapter12.mp3'         // 總結
+};
     
     // ===== 核心功能函式 =====
    function showTOC() {
@@ -2217,35 +2230,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 【關鍵修正】這是整合了語音播放器邏輯的 showContent 函式
      function showContent(sectionId, element) {
-        mainContentArea.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
-        const newSection = mainContentArea.querySelector(`#${sectionId}`);
-        if(newSection) newSection.classList.add('active');
-        
-        sidebarNav.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-        if(element) element.classList.add('active');
+    mainContentArea.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+    const newSection = mainContentArea.querySelector(`#${sectionId}`);
+    if(newSection) newSection.classList.add('active');
 
-        mainContentArea.scrollTop = 0;
-        if(element) mobileHeaderTitle.textContent = element.textContent.trim().substring(2);
+    sidebarNav.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    if(element) element.classList.add('active');
 
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('mobile-overlay');
-        if (!sidebar.classList.contains('-translate-x-full')) {
-            sidebar.classList.add('-translate-x-full');
-            overlay.style.display = 'none';
-        }
-        
-        // **判斷當前是否為 "台灣房市歷史" 章節，並控制播放器顯示**
-        if (sectionId === 'chapter1') {
-            audioPlayerContainer.style.display = 'block';
-        } else {
-            audioPlayerContainer.style.display = 'none';
-            // 切換到其他章節時，暫停、重置音訊並收合面板
-            audio.pause();
-            audio.currentTime = 0;
-            audioPlayerContainer.classList.remove('expanded');
-        }
-        updateFloatingButtons(sectionId);
+    mainContentArea.scrollTop = 0;
+    if(element) mobileHeaderTitle.textContent = element.textContent.trim().substring(2);
+
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('mobile-overlay');
+    if (!sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.add('-translate-x-full');
+        overlay.style.display = 'none';
     }
+
+    // ***** 全新的智慧判斷邏輯 *****
+    const audioFile = audioMap[sectionId]; // 從語音地圖中尋找對應的檔案
+
+    if (audioFile) { // 如果找到了語音檔
+        const newAudioSrc = 'audio/' + audioFile;
+        if (audio.getAttribute('src') !== newAudioSrc) {
+            // 只有當來源不同時才重新載入，避免重複載入
+            audio.src = newAudioSrc;
+            audio.load(); // 命令播放器載入新檔案
+        }
+        audioPlayerContainer.style.display = 'flex'; // 顯示播放器按鈕
+    } else { // 如果這個章節沒有語音檔
+        audioPlayerContainer.style.display = 'none'; // 隱藏播放器按鈕
+        audio.pause(); // 暫停播放
+        audio.src = ""; // 清空來源
+    }
+
+    // 無論如何，確保切換章節時面板是收合的
+    audioPlayerContainer.classList.remove('expanded');
+
+    updateFloatingButtons(sectionId);
+}
     
     function updateFloatingButtons(currentChapterId) {
         const currentIndex = chapters.findIndex(chapter => chapter.id === currentChapterId);
@@ -2462,6 +2485,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
