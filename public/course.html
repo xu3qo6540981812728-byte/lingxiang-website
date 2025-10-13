@@ -1980,38 +1980,48 @@
             </div>
         </div>
     </template>
-<div id="audio-player-container" class="fixed bottom-6 right-6 z-50 hidden items-center space-x-3 transition-all duration-300 ease-in-out">
-        <button id="toggle-audio-player-btn" class="flex items-center justify-center w-48 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full shadow-lg hover:scale-105 transition-transform">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
-            </svg>
-            <span class="font-semibold text-lg">語音教學</span>
-        </button>
-        <div id="audio-player-panel" class="bg-white p-4 rounded-xl shadow-2xl w-72 hidden flex-col space-y-3">
-            <audio id="chapter-audio" src="audio/chapter1-history.mp3"></audio>
-            <div class="flex items-center justify-between">
-                <button id="play-pause-btn" class="p-2 rounded-full hover:bg-slate-100">
-                    <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-700" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
-                    <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-700 hidden" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
-                </button>
-                <div id="current-time" class="text-sm text-slate-500">00:00 / 00:00</div>
-            </div>
+<div id="audio-player-container" class="fixed bottom-6 right-6 z-50 transition-all duration-300 ease-in-out">
+    <button id="audio-fab-btn" class="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full shadow-lg hover:scale-105 transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M18 3a1 1 0 00-1.196-.98l-15 2A1 1 0 001 5v10a1 1 0 001.196.98l15-2A1 1 0 0019 13V5a1 1 0 00-1-2zm-15 2.132L17 5.918v5.164L3 13.868V5.132z" />
+        </svg>
+    </button>
+    
+    <div id="audio-controls-panel" class="absolute bottom-0 right-0 bg-white p-4 rounded-xl shadow-2xl w-72 flex-col space-y-3 opacity-0 transform scale-95 pointer-events-none transition-all duration-300 ease-in-out origin-bottom-right">
+        <audio id="chapter-audio" src="audio/chapter1-history.mp3" preload="metadata"></audio>
+
+        <div class="flex items-center justify-between">
+            <h4 class="font-semibold text-slate-700">語音導覽</h4>
+            <button id="close-audio-btn" class="p-1 rounded-full hover:bg-slate-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+        
+        <div class="flex items-center space-x-3">
+            <button id="play-pause-btn" class="p-2 rounded-full hover:bg-slate-100">
+                <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-700" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>
+                <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-700 hidden" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+            </button>
+            <div id="current-time" class="text-sm text-slate-500 w-24 text-center">00:00 / 00:00</div>
             <input type="range" id="progress-bar" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer" value="0" min="0" max="100">
-            <div class="flex items-center justify-center space-x-2">
-                 <span class="text-sm font-medium text-slate-600">播放速度:</span>
-                 <button data-speed="1" class="speed-btn active-speed-btn">1.0x</button>
-                 <button data-speed="1.25" class="speed-btn">1.25x</button>
-                 <button data-speed="1.5" class="speed-btn">1.5x</button>
-                 <button data-speed="2" class="speed-btn">2.0x</button>
-            </div>
+        </div>
+        
+        <div class="flex items-center justify-center space-x-2 pt-2 border-t border-slate-200">
+             <span class="text-sm font-medium text-slate-600">播放速度:</span>
+             <button data-speed="1" class="speed-btn active-speed-btn">1x</button>
+             <button data-speed="1.25" class="speed-btn">1.25x</button>
+             <button data-speed="1.5" class="speed-btn">1.5x</button>
+             <button data-speed="2" class="speed-btn">2x</button>
         </div>
     </div>
+</div>
     <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // ===== 語音播放器相關 DOM 元素 =====
+    // ===== 更新後的語音播放器相關 DOM 元素 =====
     const audioPlayerContainer = document.getElementById('audio-player-container');
-    const toggleBtn = document.getElementById('toggle-audio-player-btn');
-    const playerPanel = document.getElementById('audio-player-panel');
+    const audioFabBtn = document.getElementById('audio-fab-btn'); // 新的圓形按鈕
+    const playerPanel = document.getElementById('audio-controls-panel'); // 新的面板
+    const closeAudioBtn = document.getElementById('close-audio-btn'); // 新的關閉按鈕
     const audio = document.getElementById('chapter-audio');
     const playPauseBtn = document.getElementById('play-pause-btn');
     const playIcon = document.getElementById('play-icon');
@@ -2020,8 +2030,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeDisplay = document.getElementById('current-time');
     const speedBtns = document.querySelectorAll('.speed-btn');
 
-    // ===== 語音播放器功能函式 =====
+    // ===== 更新後的語音播放器功能函式 =====
     function formatTime(seconds) {
+        if (isNaN(seconds) || seconds < 0) return "00:00";
         const minutes = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
@@ -2031,6 +2042,13 @@ document.addEventListener('DOMContentLoaded', () => {
         progressBar.max = audio.duration;
         timeDisplay.textContent = `00:00 / ${formatTime(audio.duration)}`;
     });
+    
+    // 解決 Safari 無法正確讀取時長的問題
+    if (audio.readyState >= 1) {
+         progressBar.max = audio.duration;
+         timeDisplay.textContent = `00:00 / ${formatTime(audio.duration)}`;
+    }
+
 
     playPauseBtn.addEventListener('click', () => {
         if (audio.paused) {
@@ -2065,6 +2083,15 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active-speed-btn');
             audio.playbackRate = parseFloat(btn.dataset.speed);
         });
+    });
+
+    // 新的展開/收合邏輯
+    audioFabBtn.addEventListener('click', () => {
+        audioPlayerContainer.classList.add('expanded');
+    });
+
+    closeAudioBtn.addEventListener('click', () => {
+        audioPlayerContainer.classList.remove('expanded');
     });
 
     let playerVisible = false;
@@ -2163,7 +2190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 【關鍵修正】這是整合了語音播放器邏輯的 showContent 函式
-    function showContent(sectionId, element) {
+     function showContent(sectionId, element) {
         mainContentArea.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
         const newSection = mainContentArea.querySelector(`#${sectionId}`);
         if(newSection) newSection.classList.add('active');
@@ -2183,16 +2210,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // **判斷當前是否為 "台灣房市歷史" 章節，並控制播放器顯示**
         if (sectionId === 'chapter1') {
-            audioPlayerContainer.classList.remove('hidden');
-            audioPlayerContainer.classList.add('flex');
+            audioPlayerContainer.style.display = 'block';
         } else {
-            audioPlayerContainer.classList.remove('flex');
-            audioPlayerContainer.classList.add('hidden');
-            // 切換到其他章節時，暫停並重置音訊
+            audioPlayerContainer.style.display = 'none';
+            // 切換到其他章節時，暫停、重置音訊並收合面板
             audio.pause();
             audio.currentTime = 0;
+            audioPlayerContainer.classList.remove('expanded');
         }
-
         updateFloatingButtons(sectionId);
     }
     
@@ -2303,10 +2328,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始顯示目錄
     showTOC();
 });
+        #audio-player-container.expanded #audio-fab-btn {
+            opacity: 0;
+            transform: scale(0.75);
+            pointer-events: none; /* 隱藏時不可點擊 */
+        }
+        #audio-player-container.expanded #audio-controls-panel {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto; /* 顯示時可點擊 */
+        }
 </script>
 
 </body>
 </html>
+
 
 
 
