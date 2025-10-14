@@ -2588,8 +2588,9 @@ function showContent(sectionId, element) {
         mainContentArea.appendChild(content);
     });
     chapterTemplate.remove();
+    chapterView.style.display = 'flex';
     createSearchIndex();
-    
+    chapterView.style.display = 'none'; 
     // ===== 進度條 (Progress Tracker) 功能 =====
     const progressItems = [
         { name: '台灣房市歷史' },
@@ -2726,6 +2727,7 @@ function showContent(sectionId, element) {
 
 </body>
 </html>
+
 
 
 
