@@ -550,7 +550,7 @@
 
         <div class="space-y-4">
             <div class="p-4 bg-blue-50 rounded-lg">
-                <h5 class="font-semibold text-blue-800">房屋坪數計算：</h5>
+                <h5 class="font-semibold text-blue-800">房屋坪數計算(不含車位)：</h5>
                 <p class="font-mono mt-2"> (71.88 [主建物] + 8.99 [附屬建物] + (459.46 [公設] × 42/1000 [權利範圍])) × 0.3025 = <b>30.30 坪</b> </p>
             </div>
             <div class="p-4 bg-green-50 rounded-lg">
@@ -571,13 +571,13 @@
     <div class="mb-6">
         <h4 class="font-bold text-lg text-indigo-600 mb-2">公設比如何計算？</h4>
 <p class="text-slate-600 bg-indigo-50 p-4 rounded-lg font-mono text-center">
-    持有公設坪數(扣除車位) ÷ 權狀總坪數(扣除車位) × 100%
+    持有公設坪數(扣除車位) ÷ 房屋坪數 × 100%
 </p>
 
 <div class="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
     <h5 class="font-semibold text-green-800">實戰範例 (沿用上方權狀)：</h5>
     <ul class="list-disc list-inside text-sm text-slate-700 mt-2 space-y-1">
-        <li><b>權狀總坪數 (不含車位)：</b> 30.30 坪</li>
+        <li><b>房屋坪數：</b> 30.30 坪</li>
         <li><b>持有公設坪數 (不含車位)：</b><br> (459.46 × 42/1000) × 0.3025 ≈ 5.82 坪</li>
     </ul>
     <div class="mt-3 pt-3 border-t border-green-300">
@@ -2969,6 +2969,7 @@ function showContent(sectionId, element) {
 
 </body>
 </html>
+
 
 
 
