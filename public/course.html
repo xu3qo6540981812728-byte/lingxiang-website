@@ -2556,16 +2556,24 @@ function resetAudioPlayerUI() {
     let searchableData = [];
     let currentHighlight = null;
 
-    // ===== 安全驗證與浮水印 =====
-    const loggedInUser = sessionStorage.getItem('loggedInUser');
-    if (!loggedInUser) {
-        // 在本地測試時，可以暫時註解掉下面這行，避免跳轉
-        // window.location.href = '/index.html'; 
-        console.log("用戶未登入，本地測試中...");
-    } else {
-        createWatermark(loggedInUser);
-        createFullPageWatermark(loggedInUser);
-    }
+    // ===== 安全驗證與浮水印 (修改後) =====
+const loggedInUser = sessionStorage.getItem('loggedInUser');
+
+if (!loggedInUser) {
+    // 如果在 sessionStorage 中找不到使用者資訊，就跳轉回登入頁
+    window.location.href = '/index.html'; // 這裡建議不要註解掉，直接啟用
+    // console.log("用戶未登入，跳轉至登入頁..."); // 可以保留用於測試
+} else {
+    // 如果找到了使用者資訊，代表是剛從登入頁跳轉過來的第一次載入
+
+    // 1. 立刻將登入資訊從 sessionStorage 中移除 (核心步驟！)
+    sessionStorage.removeItem('loggedInUser');
+
+    // 2. 正常執行建立浮水印等頁面初始化的動作
+    createWatermark(loggedInUser);
+    createFullPageWatermark(loggedInUser);
+    appWrapper.style.display = 'block'; // 確保內容顯示
+}
     
     function createWatermark(username) {
         const watermark = document.createElement('div');
@@ -2961,6 +2969,7 @@ function showContent(sectionId, element) {
 
 </body>
 </html>
+
 
 
 
