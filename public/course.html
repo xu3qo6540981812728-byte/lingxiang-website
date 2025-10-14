@@ -474,7 +474,128 @@
                 </div>
             </div>
         </div>
-        <div id="chapter3" class="content-section space-y-8">
+        <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+    <h3 class="text-2xl font-semibold text-slate-700 mb-4">為何權狀的坪數標示容易混淆？</h3>
+    <p class="text-slate-600 mb-4 leading-relaxed">
+        初次接觸不動產時，對權狀的判讀總有諸多疑問。這主要是因為權狀的標示方式與我們日常習慣不同，容易造成買賣雙方的認知糾紛。
+    </p>
+    <ul class="list-disc list-inside space-y-3 text-slate-600 bg-slate-50 p-4 rounded-md">
+        <li>權狀面積單位為「平方公尺」，而非慣用的「坪」。</li>
+        <li>「總面積」僅指室內面積，不含陽台、公設，這些項目會分開標示。</li>
+        <li>「共用部分」（公設）的登記複雜，有時還包含車位，且分為「大公」與「小公」。</li>
+    </ul>
+</div>
+
+<div class="grid md:grid-cols-2 gap-8">
+    <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+        <h3 class="text-xl font-semibold text-slate-700 mb-4">地坪是什麼？</h3>
+        <p class="text-slate-600 leading-relaxed">
+            指主體建築的佔地總面積，是權狀上實際可「自由支配」的坪數。地坪通常比建坪小，不包含陽台、騎樓、公設等面積。
+        </p>
+    </div>
+    <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+        <h3 class="text-xl font-semibold text-slate-700 mb-4">建坪是什麼？</h3>
+        <p class="text-slate-600 leading-relaxed">
+            指建築物所有樓層的面積總和，包含室內、陽台、公設等。建坪是可「使用」的坪數，但公設部分並非專屬可支配。
+        </p>
+    </div>
+</div>
+        <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+    <h3 class="text-2xl font-semibold text-slate-700 mb-6">如何計算權狀坪數？</h3>
+    
+    <div class="mb-6">
+        <h4 class="font-bold text-lg text-indigo-600 mb-2">基本換算公式</h4>
+        <p class="text-slate-600 bg-indigo-50 p-4 rounded-lg font-mono text-center text-lg">
+            平方公尺 × 0.3025 = 坪
+        </p>
+    </div>
+
+    <div class="mb-8">
+        <h4 class="font-bold text-lg text-indigo-600 mb-2">權狀坪數總公式</h4>
+        <p class="text-slate-600 bg-slate-100 p-4 rounded-lg font-mono text-center">
+            (總面積 + 附屬建物面積 + (共用部分面積 × 權利範圍)) × 0.3025
+        </p>
+        <ul class="list-decimal list-inside text-slate-600 mt-4 space-y-2">
+            <li><b>總面積：</b>即主建物（室內）面積。</li>
+            <li><b>附屬建物：</b>通常為陽台、花台、露台等。</li>
+            <li><b>共用部分：</b>即公共設施。</li>
+            <li><b>權利範圍：</b>您所持有的公設比例。</li>
+        </ul>
+    </div>
+    
+    <div class="border-t pt-6">
+        <h4 class="font-bold text-xl text-slate-800 mb-4">實戰範例：權狀判讀與計算</h4>
+        <p class="text-slate-600 mb-4">以下圖的權狀為例，我們來實際計算房屋與車位的坪數。</p>
+        <img src="images/scimgF0At1e.webp" alt="權狀範例圖" class="w-full rounded-lg shadow-md border mb-6">
+
+        <div class="space-y-4">
+            <div class="p-4 bg-blue-50 rounded-lg">
+                <h5 class="font-semibold text-blue-800">房屋坪數計算：</h5>
+                <p class="font-mono mt-2"> (71.88 [主建物] + 8.99 [附屬建物] + (459.46 [公設] × 42/1000 [權利範圍])) × 0.3025 = <b>30.30 坪</b> </p>
+            </div>
+            <div class="p-4 bg-green-50 rounded-lg">
+                <h5 class="font-semibold text-green-800">車位坪數計算：</h5>
+                <p class="font-mono mt-2"> (328.33 [車位公設] × 1/10 [權利範圍]) × 0.3025 = <b>9.93 坪</b></p>
+            </div>
+            <div class="p-4 bg-amber-50 rounded-lg">
+                <h5 class="font-semibold text-amber-800">總價計算範例：</h5>
+                <p class="text-slate-700 mt-2">假設該地區單坪30萬，一個車位100萬：</p>
+                <p class="font-mono mt-1"> (30.30 坪 × 30 萬) + 100 萬 (車位價) = <b>1,009 萬元</b></p>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="bg-white p-8 rounded-xl shadow-lg content-card animate-on-scroll">
+    <h3 class="text-2xl font-semibold text-slate-700 mb-6">深入解析：公共設施 (公設)</h3>
+    
+    <div class="mb-6">
+        <h4 class="font-bold text-lg text-indigo-600 mb-2">公設比如何計算？</h4>
+        <p class="text-slate-600 bg-indigo-50 p-4 rounded-lg font-mono text-center">
+            持有公設坪數(扣除車位) ÷ 權狀總坪數(扣除車位) × 100%
+        </p>
+        <div class="mt-4 p-4 bg-amber-100 border-l-4 border-amber-500 text-amber-800">
+            <p class="font-bold">重要觀念：車位一定要分開計算與報價，不應計入公設比或房屋單價中。</p>
+        </div>
+    </div>
+
+    <div class="mb-8">
+        <h4 class="font-bold text-lg text-indigo-600 mb-3">合理的公設比建議</h4>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-slate-200 rounded-lg">
+                <thead class="bg-slate-200">
+                    <tr>
+                        <th class="p-3 text-left font-bold text-gray-700">房子種類</th>
+                        <th class="p-3 text-left font-bold text-gray-700">公設比建議</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                    <tr><td class="p-3">公寓</td><td class="p-3 font-medium">5% ~ 12%</td></tr>
+                    <tr class="bg-slate-50"><td class="p-3">舊式電梯華廈</td><td class="p-3 font-medium">12% ~ 18%</td></tr>
+                    <tr><td class="p-3">舊式住宅大廈</td><td class="p-3 font-medium">20% ~ 25%</td></tr>
+                    <tr class="bg-slate-50"><td class="p-3">新式大廈或社區</td><td class="p-3 font-medium">30% ~ 40%</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="border-t pt-6">
+        <h4 class="font-bold text-lg text-indigo-600 mb-3">大公 vs 小公</h4>
+        <p class="text-slate-600 leading-relaxed mb-4">
+            大家常以為老公寓零公設，其實不然。公設分為權狀上看得到與看不到的兩種：
+        </p>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="p-4 bg-slate-100 rounded-lg">
+                <h5 class="font-semibold text-slate-800">大公</h5>
+                <p class="text-sm mt-1">權狀謄本「共用部分」有明確登記的面積，所有住戶共同分攤，如大廳、健身房等。</p>
+            </div>
+            <div class="p-4 bg-slate-100 rounded-lg">
+                <h5 class="font-semibold text-slate-800">小公</h5>
+                <p class="text-sm mt-1">權狀上看不到，但面積被合併在「主建物」內的共用空間。最常見的就是公寓的樓梯間，雖然表面零公設，但實際室內坪數會因此縮水1-2坪。</p>
+            </div>
+        </div>
+    </div>
+</div>
+       </div><div id="chapter3" class="content-section space-y-8">
             <header class=" ">
                 <h2 class="text-4xl font-bold text-slate-800 border-b-4 border-indigo-500 pb-3 mb-2">代書流程</h2>
                 <p class="text-slate-500">從簽約到交屋的完整路徑圖</p>
@@ -2792,6 +2913,7 @@ function showContent(sectionId, element) {
 
 </body>
 </html>
+
 
 
 
