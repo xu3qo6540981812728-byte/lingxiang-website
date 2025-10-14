@@ -2695,7 +2695,71 @@ function showContent(sectionId, element) {
     }
 
     renderProgressTable(); // 初始渲染表格
-    
+    function displayResults(matches, query) {
+        resultsList.innerHTML = '';
+        if (matches.length === 0) {
+            resultsHeader.textContent = `找不到關於「${query}」的結果`;
+            return;
+        }
+        resultsHeader.textContent = `找到 ${matches.length} 筆關於「${query}」的結果`;
+        matches.forEach(match => {
+            const li = document.createElement('li');
+            li.className = 'search-result-item';
+            li.dataset.chapterId = match.chapterId;
+            li.dataset.text = match.text;
+            const chapterTitle = chapters.find(c => c.id === match.chapterId)?.title || '未知章節';
+            const highlightedText = match.text.replace(new RegExp(query, 'gi'), (matchText) => `<mark>${matchText}</mark>`);
+            li.innerHTML = ` <div class="chapter-title">${chapterTitle}</div> <div class="match-text">${highlightedText}</div> `;
+            resultsList.appendChild(li);
+        });
+    }
+
+    // 監聽搜尋框的輸入
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (query.length < 2) {
+            resultsContainer.classList.remove('visible');
+            return;
+        }
+        const matches = searchableData.filter(item => item.text.toLowerCase().includes(query));
+        displayResults(matches, e.target.value.trim());
+        resultsContainer.classList.add('visible');
+    });
+
+    // 監聽搜尋結果的點擊
+    resultsContainer.addEventListener('click', (e) => {
+        const item = e.target.closest('.search-result-item');
+        if (!item) return;
+        const { chapterId, text } = item.dataset;
+        const targetData = searchableData.find(d => d.chapterId === chapterId && d.text === text);
+        if (targetData) {
+            if (currentHighlight) {
+                currentHighlight.classList.remove('content-highlight');
+            }
+            showChapterView(chapterId);
+            setTimeout(() => { // 加入延遲確保內容已顯示
+                targetData.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetData.element.classList.add('content-highlight');
+                currentHighlight = targetData.element;
+                setTimeout(() => {
+                    if (currentHighlight) {
+                        currentHighlight.classList.remove('content-highlight');
+                        currentHighlight = null;
+                    }
+                }, 2000);
+            }, 100); // 延遲100毫秒
+        }
+        resultsContainer.classList.remove('visible');
+        searchInput.value = '';
+    });
+
+    // 監聽頁面點擊，若點擊搜尋區塊以外的地方則隱藏結果
+    document.addEventListener('click', (e) => {
+        const isClickInsideSearch = searchInput.contains(e.target) || resultsContainer.contains(e.target);
+        if (!isClickInsideSearch) {
+            resultsContainer.classList.remove('visible');
+        }
+    });
     // ===== 事件監聽器綁定 =====
     backToTocDesktop.addEventListener('click', showTOC);
     backToTocMobile.addEventListener('click', showTOC);
@@ -2727,6 +2791,7 @@ function showContent(sectionId, element) {
 
 </body>
 </html>
+
 
 
 
