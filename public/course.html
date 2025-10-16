@@ -2576,22 +2576,27 @@ function resetAudioPlayerUI() {
     let currentHighlight = null;
 
     // ===== 安全驗證與浮水印 (修改後) =====
-const loggedInUser = sessionStorage.getItem('loggedInUser');
+// ===== 安全驗證與浮水印 (最終修正版，恢復重新整理登出功能) =====
+    // 檢查頁面載入的方式
+    const navigationEntries = performance.getEntriesByType("navigation");
+    const isRefresh = navigationEntries.length > 0 && navigationEntries[0].type === 'reload';
 
-if (!loggedInUser) {
-    // 如果在 sessionStorage 中找不到使用者資訊，就跳轉回登入頁
-    window.location.href = '/index.html'; // 這裡建議不要註解掉，直接啟用
-    // console.log("用戶未登入，跳轉至登入頁..."); // 可以保留用於測試
-} else {
-    // 如果找到了使用者資訊，代表是剛從登入頁跳轉過來的第一次載入
+    const loggedInUser = sessionStorage.getItem('loggedInUser');
 
-    
-
-    // 2. 正常執行建立浮水印等頁面初始化的動作
-    createWatermark(loggedInUser);
-    createFullPageWatermark(loggedInUser);
-    appWrapper.style.display = 'block'; // 確保內容顯示
-}
+    if (isRefresh) {
+        // 1. 如果是重新整理，就清除登入狀態並跳轉回登入頁
+        sessionStorage.removeItem('loggedInUser');
+        window.location.href = '/index.html';
+    } else if (loggedInUser) {
+        // 2. 如果是正常載入 (非重新整理)，且有登入資訊
+        // 就建立浮水印並顯示內容。我們不再移除 sessionStorage，以維持狀態穩定。
+        createWatermark(loggedInUser);
+        createFullPageWatermark(loggedInUser);
+        appWrapper.style.display = 'block'; // 確保內容顯示
+    } else {
+        // 3. 如果是直接訪問此頁面 (非重新整理且無登入資訊)，也跳轉回登入頁
+        window.location.href = '/index.html';
+    }
     
     function createWatermark(username) {
         const watermark = document.createElement('div');
@@ -2987,6 +2992,7 @@ if (sidebar.classList.contains('open')) {
 
 </body>
 </html>
+
 
 
 
