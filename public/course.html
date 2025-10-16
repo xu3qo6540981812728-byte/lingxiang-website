@@ -2575,8 +2575,7 @@ if (!loggedInUser) {
 } else {
     // 如果找到了使用者資訊，代表是剛從登入頁跳轉過來的第一次載入
 
-    // 1. 立刻將登入資訊從 sessionStorage 中移除 (核心步驟！)
-    sessionStorage.removeItem('loggedInUser');
+    
 
     // 2. 正常執行建立浮水印等頁面初始化的動作
     createWatermark(loggedInUser);
@@ -2978,6 +2977,7 @@ function showContent(sectionId, element) {
 
 </body>
 </html>
+
 
 
 
