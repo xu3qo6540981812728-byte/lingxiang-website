@@ -2676,8 +2676,8 @@ function showContent(sectionId, element) {
     if(element) mobileHeaderTitle.textContent = element.textContent.trim().substring(2);
 
     const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('mobile-overlay');
-    if (sidebar.classList.contains('open')) {
+const overlay = document.getElementById('mobile-overlay');
+if (sidebar.classList.contains('open')) {
     sidebar.classList.remove('open');
     overlay.style.display = 'none';
 }
@@ -2963,7 +2963,7 @@ function showContent(sectionId, element) {
     const menuButton = document.getElementById('menu-button');
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('mobile-overlay');
-   const toggleMenu = () => {
+  const toggleMenu = () => {
     sidebar.classList.toggle('open');
     overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
 };
@@ -2987,6 +2987,7 @@ function showContent(sectionId, element) {
 
 </body>
 </html>
+
 
 
 
